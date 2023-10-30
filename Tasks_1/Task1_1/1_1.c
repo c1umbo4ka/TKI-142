@@ -38,5 +38,5 @@ int main()
 	const double b = getB(x, y, z);
 	printf("%s%lf%s%lf%s%lf\n", "x = ", x, " y = ", y, " z = ", z);
 	printf("%s%lf%s%lf", "a = ", a, " b = ", b);
-	return 0
+	return 0;
 }
