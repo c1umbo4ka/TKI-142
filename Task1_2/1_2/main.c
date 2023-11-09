@@ -74,16 +74,16 @@ double checkA(double a)
 	}
 }
 
-double getVolume(double Radius, double a)
+double getVolume(double radius, double a)
 {
-	double A = 2.0 * Radius * sin(a);
+	double A = 2.0 * radius * sin(a);
 	double h = A / (2.0 * tan(a / 2.0));
 	return (M_PI * pow((A / 2.0), 2) * h) / 3.0;
 }
 
-double getSquare(double Radius, double a)
+double getSquare(double radius, double a)
 {
-	double A = 2.0 * Radius * sin(a);
+	double A = 2.0 * radius * sin(a);
 	double l = A / (2.0 * sin(a / 2.0));
-	return M_PI * Radius * (Radius + l);
+	return M_PI * radius * (radius + l);
 }
