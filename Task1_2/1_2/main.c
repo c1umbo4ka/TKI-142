@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <math.h>
 #include <stdio.h>
+#include <float.h>
 
 /**
 * @brief Функция проверки переменной Radius.
 * @param Radius Аргумент функции.
 * @return Возвращает истину в случае успеха.
 */
-double checkR(double Radius);
+double checkR(double radius);
 
 /**
 * @brief Функция проверки переменной a.
@@ -23,7 +24,7 @@ double checkA(double a);
 * @param a Аргумент функции.
 * @return Возвращает значение функции.
 */
-double getVolume(double Radius, double a);
+double getVolume(double radius, double a);
 
 /**
 * @brief Функция расчета площади.
@@ -31,7 +32,7 @@ double getVolume(double Radius, double a);
 * @param a Аргумент функции.
 * @return Возвращает значение функции.
 */
-double getSquare(double Radius, double a);
+double getSquare(double radius, double a);
 
 /**
 * @brief Точка входа в программу.
@@ -39,25 +40,25 @@ double getSquare(double Radius, double a);
 */
 int main()
 {
-	double Radius;
+	double radius;
 	double a;
 	printf("%s", "Insert Radius: ");
-	scanf_s("%lf", &Radius);
+	scanf_s("%lf", &radius);
 	printf("%s", "Insert a: ");
 	scanf_s("%lf", &a);
-	checkR(Radius);
+	checkR(radius);
 	checkA(a);
-	double V = getVolume(Radius, a);
-	double S = getSquare(Radius, a);
-	printf("Radius = %lf a = %lf\n", Radius, a);
-	printf("Volume = %lf\n", V);
-	printf("Square = %lf", S);
+	double v = getVolume(radius, a);
+	double s = getSquare(radius, a);
+	printf("Radius = %lf a = %lf\n", radius, a);
+	printf("Volume = %lf\n", v);
+	printf("Square = %lf", s);
 	return 0;
 }
 
-double checkR(double Radius)
+double checkR(double radius)
 {
-	if (Radius <= 0)
+	if (radius <= DBL_EPSILON)
 	{
 		printf("%s", "Error!!!");
 		abort();
@@ -66,7 +67,7 @@ double checkR(double Radius)
 
 double checkA(double a)
 {
-	if (a > M_PI || a <= 0)
+	if (a - M_PI > DBL_EPSILON || a <= DBL_EPSILON)
 	{
 		printf("%s", "Error!!!");
 		abort();
