@@ -1,5 +1,6 @@
 ﻿#include <stdio.h>
 #include <math.h>
+#include <float.h>
 
 /**
 * @brief Функция расчёта по заданной формуле.
@@ -27,7 +28,7 @@ int main()
 
 double getY(double x, double a)
 {
-	if (x > 1)
+	if (x - 1 > DBL_EPSILON)
 	{
 		return log10(x + 1);
 	}
