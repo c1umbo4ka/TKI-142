@@ -67,7 +67,7 @@ double checkR(double radius)
 
 double checkA(double a)
 {
-	if (a - M_PI > DBL_EPSILON || a <= DBL_EPSILON)
+	if (a - M_PI > - DBL_EPSILON || a <= DBL_EPSILON)
 	{
 		printf("%s", "Error!!!");
 		abort();
