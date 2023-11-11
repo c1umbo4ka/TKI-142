@@ -4,20 +4,20 @@
 #include <float.h>
 
 /**
-* @brief Фукция проверки переменной F.
-* @param f Аргумент функции.
-* @param a Аргумент функции.
+* @brief Фукция проверки переменных force и arbeit.
+* @param force Аргумент функции.
+* @param arbeit Аргумент функции.
 * @return Возвращает ошибку в случае успеха.
 */
-double check(double f, double a);
+double check(double force, double arbeit);
 
 /**
 * @brief Функция расчета пути.
-* @param F Аргумент функции.
-* @param A Аргумент функции.
+* @param force Аргумент функции.
+* @param arbeit Аргумент функции.
 * @return Возвращает значение функции.
 */
-double getS(double f, double a);
+double getS(double force, double aarbeit);
 
 /**
 * @brief Точка входа в программу.
@@ -25,26 +25,26 @@ double getS(double f, double a);
 */
 int main()
 {
-	double f;
-	double a;
-	printf("%s", "Insert F: "); scanf_s("%lf", &f);
-	printf("%s", "Insert A: "); scanf_s("%lf", &a);
-	check(f, a);
-	double s = getS(f, a);
+	double force;
+	double arbeit;
+	printf("%s", "Insert force: "); scanf_s("%lf", &force);
+	printf("%s", "Insert arbeit: "); scanf_s("%lf", &arbeit);
+	check(force, arbeit);
+	double s = getS(force, arbeit);
 	printf("The path traveled by the car: %lf meters", s);
 	return 0;
 }
 
-double check(double f,double a)
+double check(double force,double arbeit)
 {
-	if ((f < 0) || (a < DBL_EPSILON))
+	if ((force < 0) || (arbeit < DBL_EPSILON))
 	{
 		printf("%s", "The entered data doesn't correspond to the task conditions.");
 		abort();
 	}
 }
 
-double getS(double f, double a)
+double getS(double force, double arbeit)
 {
-	return (a * pow(10, 6)) / (f * pow(10, 3));
+	return (arbeit * pow(10, 6)) / (force * pow(10, 3));
 }
