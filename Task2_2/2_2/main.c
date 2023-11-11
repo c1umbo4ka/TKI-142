@@ -5,10 +5,9 @@
 /**
 * @brief Функция расчёта по заданной формуле.
 * @param x Аргумент функции.
-* @param a Аргумент функции.
 * @return Возвращает значение функции.
 */
-double getY(double x, double a);
+double getY(double x);
 
 /**
 * @brief Точка входа в программу.
@@ -16,19 +15,20 @@ double getY(double x, double a);
 */
 int main()
 {
-	const double a = 20.3;
+	
 	double x = 0;
 	printf("%s", "Insert x: ");
 	scanf_s("%lf", &x);
-	double y = getY(x, a);
+	double y = getY(x);
 	printf("x = %lf\n", x);
 	printf("y = %lf", y);
 	return 0;
 }
 
-double getY(double x, double a)
+double getY(double x)
 {
-	if (x - 1 > DBL_EPSILON)
+	const double a = 20.3;
+	if (x - 1 > - DBL_EPSILON)
 	{
 		return log10(x + 1);
 	}
