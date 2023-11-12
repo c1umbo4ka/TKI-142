@@ -37,7 +37,7 @@ int main()
 
 double check(double force,double arbeit)
 {
-	if ((force < 0) || (arbeit < DBL_EPSILON))
+	if ((force < DBL_EPSILON) || (arbeit < DBL_EPSILON))
 	{
 		printf("%s", "The entered data doesn't correspond to the task conditions.");
 		abort();
@@ -46,5 +46,7 @@ double check(double force,double arbeit)
 
 double getS(double force, double arbeit)
 {
-	return (arbeit * pow(10, 6)) / (force * pow(10, 3));
+	const double mega = pow(10, 6);
+	const double kilo = pow(10, 3);
+	return (arbeit * mega) / (force * kilo);
 }
