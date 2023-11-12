@@ -15,13 +15,11 @@ double getY(double x);
 */
 int main()
 {
-	
 	double x = 0;
 	printf("%s", "Insert x: ");
 	scanf_s("%lf", &x);
-	double y = getY(x);
 	printf("x = %lf\n", x);
-	printf("y = %lf", y);
+	printf("y = %lf", getY(x));
 	return 0;
 }
 
