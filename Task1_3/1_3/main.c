@@ -27,11 +27,12 @@ int main()
 {
 	double force;
 	double arbeit;
-	printf("%s", "Insert force: "); scanf_s("%lf", &force);
-	printf("%s", "Insert arbeit: "); scanf_s("%lf", &arbeit);
+	printf("%s", "Insert force: "); 
+	scanf_s("%lf", &force);
+	printf("%s", "Insert arbeit: "); 
+	scanf_s("%lf", &arbeit);
 	check(force, arbeit);
-	double s = getS(force, arbeit);
-	printf("The path traveled by the car: %lf meters", s);
+	printf("The path traveled by the car: %lf meters", getS(force, arbeit));
 	return 0;
 }
 
