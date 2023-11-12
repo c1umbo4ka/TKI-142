@@ -19,23 +19,47 @@ double gety(double x);
 bool checkx(double x);
 
 /**
+* @brief Функция проверки отрезка на правильность.
+* @param start Аргумент функции.
+* @param end Аргумент функции.
+* @return Возвращает ошибку в случае успеха.
+*/
+double check_segment(double start, double end);
+
+/**
+* @brief Функция проверки шага на правильность.
+* @param detx Аргумент функции.
+* @return Возвращает ошибку в случае успеха.
+*/
+double check_detx(double detx);
+
+/**
 * @brief Точка входа в программу. 
 * @return Возвращает 0 в случае успеха.
 */
 int main()
 {
-	const double detx = 0.05;
+	double detx = 0.0;
 	double x;
-	for (x = 0; x <= 0.8 + detx; x += detx)
+	double start = 0.0;
+	double end = 0.0;
+	printf("%s", "Insert beginning of the segment: ");
+	scanf_s("%lf", &start);
+	printf("%s", "Insert end of the segment: ");
+	scanf_s("%lf", &end);
+	check_segment(start, end);
+	printf("%s", "Insert step: ");
+	scanf_s("%lf", &detx);
+	check_detx(detx);
+	for (x = start; x <= end + detx; x += detx)
 	{
 		if (checkx(x))
 		{
-			gety(x);
 			printf("x = %lf y = %lf\n", x, gety(x));
 		}
 		else
 		{
-			printf("%s", "В данной точке функция не определена.");
+			printf("x = %lf At this point the function is not defined.", x);
 		}
 	}
 	return 0;
@@ -43,7 +67,7 @@ int main()
 
 bool checkx(double x)
 {
-	if (fabs(cos(x)) > DBL_EPSILON)
+	if (cos(x) != 0)
 	{
 		return true;
 	}
@@ -55,5 +79,23 @@ bool checkx(double x)
 
 double gety(double x)
 {
-	return tan(x) - (1 / 3) * pow(tan(x), 3) + (1 / 5) * pow(tan(x), 5) - (1 / 3);
+	return tan(x) - (1.0 / 3) * pow(tan(x), 3) + (1.0 / 5) * pow(tan(x), 5) - (1.0 / 3);
+}
+
+double check_segment(double start, double end)
+{
+	if (start > end)
+	{
+		printf("%s", "Incorrect segment specified.");
+		abort();
+	}
+}
+
+double check_detx(double detx)
+{
+	if (detx <= DBL_EPSILON)
+	{
+		printf("%s", "The step is set incorrectly.");
+		abort();
+	}
 }
