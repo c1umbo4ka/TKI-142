@@ -4,7 +4,12 @@
 #include <stdlib.h>
 #include <float.h>
 
+/**
+* @brief Функция проверки ввода на правильность.
+* @return Возвращает значение в случае успеха.
+*/
 double get_value();
+
 /**
 * @brief Фукция проверки переменных force и arbeit.
 * @param force Аргумент функции.
