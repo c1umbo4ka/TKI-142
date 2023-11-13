@@ -54,7 +54,7 @@ int main()
 	printf("%s", "Insert step: ");
 	double detx = get_value();
 	check_detx(detx);
-	for (double x = start; x < end + detx; x += detx)
+	for (double x = start; x <= end; x += detx)
 	{
 		if (checkx(x))
 		{
@@ -70,14 +70,11 @@ int main()
 
 bool checkx(double x)
 {
-	if (cos(x) != 0)
+	if (fabs(cos(x)) > -DBL_EPSILON)
 	{
 		return true;
 	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 double gety(double x)
@@ -87,7 +84,7 @@ double gety(double x)
 
 double check_segment(double start, double end)
 {
-	if (start > end)
+	if (start - end > DBL_EPSILON)
 	{
 		printf("%s", "Incorrect segment specified.");
 		abort();
