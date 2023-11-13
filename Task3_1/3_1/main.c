@@ -54,7 +54,7 @@ int main()
 	printf("%s", "Insert step: ");
 	double detx = get_value();
 	check_detx(detx);
-	for (double x = start; x <= end; x += detx)
+	for (double x = start; x - end < DBL_EPSILON; x += detx)
 	{
 		if (checkx(x))
 		{
