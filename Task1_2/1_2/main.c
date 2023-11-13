@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <float.h>
+#include <errno.h>
 
 /**
 * @brief Функция проверки переменной Radius.
@@ -35,17 +36,21 @@ double getVolume(double radius, double a);
 double getSquare(double radius, double a);
 
 /**
+* @brief Функция проверки ввода на правильность.
+* @return Возвращает значение в случае успеха.
+*/
+double get_value();
+
+/**
 * @brief Точка входа в программу.
 * @return Возвращает 0 в случае успеха.
 */
 int main()
 {
-	double radius;
-	double a;
 	printf("%s", "Insert Radius: ");
-	scanf_s("%lf", &radius);
+	double radius = get_value();
 	printf("%s", "Insert a: ");
-	scanf_s("%lf", &a);
+	double a = get_value();
 	checkR(radius);
 	checkA(a);
 	printf("Radius = %lf a = %lf\n", radius, a);
@@ -84,4 +89,17 @@ double getSquare(double radius, double a)
 	double A = 2.0 * radius * sin(a);
 	double l = A / (2.0 * sin(a / 2.0));
 	return M_PI * radius * (radius + l);
+}
+
+double get_value()
+{
+	double value;
+	int result = scanf_s("%lf", &value);
+	if (result != 1 || value <= 0)
+	{
+		errno = EIO;
+		perror("Invalid value entered!!!");
+		abort();
+	}
+	return value;
 }
