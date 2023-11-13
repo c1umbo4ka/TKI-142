@@ -30,8 +30,5 @@ double getY(double x)
 	{
 		return log10(x + 1);
 	}
-	else
-	{
-		return sin(2 * sqrt(abs(a * x)));
-	}
+	return sin(2 * sqrt(abs(a * x)));
 }
