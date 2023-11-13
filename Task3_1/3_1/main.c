@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <float.h>
 #include <stdlib.h>
+#include <errno.h>
 
 /**
 * @brief Функция расчета по заданной формуле.
@@ -34,24 +35,26 @@ double check_segment(double start, double end);
 double check_detx(double detx);
 
 /**
+* @brief Функция проверки ввода на правильность.
+* @return Возвращает значение в случае успеха.
+*/
+double get_value();
+
+/**
 * @brief Точка входа в программу. 
 * @return Возвращает 0 в случае успеха.
 */
 int main()
 {
-	double detx = 0.0;
-	double x;
-	double start = 0.0;
-	double end = 0.0;
 	printf("%s", "Insert beginning of the segment: ");
-	scanf_s("%lf", &start);
+	double start = get_value();
 	printf("%s", "Insert end of the segment: ");
-	scanf_s("%lf", &end);
+	double end = get_value();
 	check_segment(start, end);
 	printf("%s", "Insert step: ");
-	scanf_s("%lf", &detx);
+	double detx = get_value();
 	check_detx(detx);
-	for (x = start; x <= end + detx; x += detx)
+	for (double x = start; x < end + detx; x += detx)
 	{
 		if (checkx(x))
 		{
@@ -98,4 +101,17 @@ double check_detx(double detx)
 		printf("%s", "The step is set incorrectly.");
 		abort();
 	}
+}
+
+double get_value()
+{
+	double value;
+	int result = scanf_s("%lf", &value);
+	if (result != 1)
+	{
+		errno = EIO;
+		perror("Invalid value entered!!!");
+		abort();
+	}
+	return value;
 }
