@@ -48,11 +48,9 @@ int main()
 	scanf_s("%lf", &a);
 	checkR(radius);
 	checkA(a);
-	double v = getVolume(radius, a);
-	double s = getSquare(radius, a);
 	printf("Radius = %lf a = %lf\n", radius, a);
-	printf("Volume = %lf\n", v);
-	printf("Square = %lf", s);
+	printf("Volume = %lf\n", getVolume(radius, a));
+	printf("Square = %lf", getSquare(radius, a));
 	return 0;
 }
 
