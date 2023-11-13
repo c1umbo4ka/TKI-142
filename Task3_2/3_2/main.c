@@ -4,54 +4,66 @@
 #include <errno.h>
 #include <stdlib.h>
 
-int get_factorial(int end);
+/**
+* @brief Функция считывающая количество членов последовательности.
+* @remarks Экстренное завершение программы, в случае неправильного ввода.
+* @return Количество членов последовательности.
+*/
+int get_count();
 
-double get_sum(int end);
+/**
+* @brief Функция расчитывающая сумму членов последовательности.
+* @param count - количество членов последовательности.
+* @return Сумма последовательности.
+*/
+double get_sum(int count);
 
-double get_value();
+/**
+* @brief Функция расчитывающая рекурентный член последовательности.
+* @param k - номер члена последовательности.
+* @return Значение рекурентного члена последовательности.
+*/
+double get_recurrent(int k);
 
+/**
+* @brief Точка входа в программу.
+* @return Возвращает 0 в случае успеха.
+*/
 int main()
 {
 	printf("%s", "Insert end of the segment: ");
-	int end = get_value();
-	printf("Summary = %lf", get_sum(end));
+	int count = get_count();
+	printf_s("Sum of %d sequence terms: %lf \n", count, get_sum(count));
 	return 0;
 }
 
-int get_factorial(int end)
+int get_count()
 {
-	int factorial = 0;
-	for (int variable = 1; variable < end + 1; variable++)
-		if (variable * 2 == 0 || 2 * variable == 1)
-		{
-			factorial = 1;
-		}
-		else
-		{
-			factorial = factorial * variable;
-		}
-	return factorial;
+	int count;
+	int result = scanf_s("%d", &count);
+
+	if (result != 1 || count < 1)
+	{
+		errno = EIO;
+		perror("Ошибка ввода");
+		abort();
+	}
+	return count;
 }
 
-double get_sum(int end)
+double get_sum(int count)
 {
-	double sum = 0;
-	for (int variable = 1; variable < end + 1; variable++)
+	double current = 1;
+	double sum = current;
+	for (int k = 0; k < count; k++)
 	{
-		sum = sum + (1.0 / (get_factorial(end)));
+		current *= get_recurrent(k);
+		sum += current;
 	}
 	return sum;
 }
 
-double get_value()
+double get_recurrent(int k)
 {
-	int value;
-	int result = scanf_s("%d", &value);
-	if (result != 1 || value <= 0)
-	{
-		errno = EIO;
-		perror("Invalid value entered!!!");
-		abort();
-	}
-	return value;
+	return 1.0 / (4 * pow(k, 2) + 6 * k + 2);
 }
