@@ -84,7 +84,7 @@ double gety(double x)
 
 double check_segment(double start, double end)
 {
-	if (start - end > DBL_EPSILON)
+	if (start - end > -DBL_EPSILON)
 	{
 		printf("%s", "Incorrect segment specified.");
 		abort();
