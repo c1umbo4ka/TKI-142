@@ -33,7 +33,7 @@ int main()
 {
 	printf("%s", "Insert end of the segment: ");
 	int count = get_count();
-	printf_s("Sum of %d sequence terms: %lf \n", count, get_sum(count));
+	printf_s("Sum of %d sequence terms: %lf \n", count + 1, get_sum(count));
 	return 0;
 }
 
