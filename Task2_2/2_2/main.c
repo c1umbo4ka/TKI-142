@@ -1,6 +1,8 @@
 ﻿#include <stdio.h>
 #include <math.h>
 #include <float.h>
+#include <errno.h>
+#include <stdlib.h>
 
 /**
 * @brief Функция расчёта по заданной формуле.
@@ -10,6 +12,12 @@
 double getY(double x);
 
 /**
+* @brief Функция проверки ввода на правильность.
+* @return Возвращает значение в случае успеха.
+*/
+double get_value();
+
+/**
 * @brief Точка входа в программу.
 * @return Возвращает 0 в случае успеха.
 */
@@ -17,7 +25,7 @@ int main()
 {
 	double x = 0;
 	printf("%s", "Insert x: ");
-	scanf_s("%lf", &x);
+	double x = get_value();
 	printf("x = %lf\n", x);
 	printf("y = %lf", getY(x));
 	return 0;
@@ -31,4 +39,17 @@ double getY(double x)
 		return log10(x + 1);
 	}
 	return sin(2 * sqrt(abs(a * x)));
+}
+
+double get_value()
+{
+	double value;
+	int result = scanf_s("%lf", &value);
+	if (result != 1 || value <= 0)
+	{
+		errno = EIO;
+		perror("Invalid value entered!!!");
+		abort();
+	}
+	return value;
 }
