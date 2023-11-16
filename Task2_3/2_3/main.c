@@ -4,9 +4,14 @@
 
 /**
 * @brief Функция проверки правильности ввода.
-* @return Возвращает название фигуры в случае правильности ввода.
+* @return Возвращает значение в случае правильности ввода.
 */
-char get_figure();
+int get_figure();
+
+/**
+* @brief Функция вывода формулы площади.
+*/
+void get_formula(enum UserInput user_choice);
 
 enum figure
 {
@@ -16,7 +21,8 @@ enum figure
 	rectangle,
 	trapezoid,
 	circle,
-	parallelogram
+	parallelogram,
+	arbitrary
 };
 
 /**
@@ -25,58 +31,89 @@ enum figure
 */
 int main()
 {
-	printf("Enter a name of the shape: ");
-	char input_figure = get_figure();
-	switch (input_figure)
+	puts("Enter the number corresponding to the task:\n");
+	printf_s("%d - to display area formula of the square\n", square);
+	printf_s("%d - to display area formula of the triangle\n", triangle);
+	printf_s("%d - to display area formula of the rhombus\n", rhombus);
+	printf_s("%d - to display area formula of the rectangle\n", rectangle);
+	printf_s("%d - to display area formula of the trapezoid\n", trapezoid);
+	printf_s("%d - to display area formula of the circle\n", circle);
+	printf_s("%d - to display area formula of the parallelogram\n", parallelogram);
+	printf_s("%d - to display area formula of the arbitrary\n", arbitrary);
+	char input = get_figure();
+	enum UserInput user_choice = (enum figure)input;
+	get_formula(user_choice);
+	return 0;
+}
+
+void get_formula(enum UserInput user_choice)
+{
+	switch (user_choice)
 	{
 		case square:
 		{
-			printf("%s", "S = a * a\na - side");
+			puts("S = a * a");
+			puts("a - side");
 			break;
 		}
 		case triangle:
 		{
-			printf("%s", "S = 1/2 * a * h\na - base\nh - height drawn to this base");
+			puts("S = (1/2) * a * h");
+			puts("a - base");
+			puts("h - height");
 			break;
 		}
 		case rhombus:
 		{
-			printf("%s", "S = 1/2 * d1 * d2\nd1 - first diagonal\nd2 - second diagonal");
+			puts("S = (1/2) * d1 * d2");
+			puts("d1 and d2 - diagonals");
 			break;
 		}
 		case rectangle:
 		{
-			printf("%s", "S = a * b\na and b - neighboring sides");
+			puts("S = a * b");
+			puts("a and b - neighboring sides");
 			break;
 		}
 		case trapezoid:
 		{
-			printf("%s", "S = (a + b)/2 * h\na and b - bases\nh - height");
+			puts("S = ((a + b)/2) * h");
+			puts("a and b - bases");
+			puts("h - height");
 			break;
 		}
 		case circle:
 		{
-			printf("%s", "S = π * R * R\nπ - Pi\nR - radius");
+			puts("S = π * R * R");
+			puts("R - radius");
 			break;
 		}
 		case parallelogram:
 		{
-			printf("%s", "S = a * h\na - base\nh - height drawn to this base");
+			puts("S = a * h");
+			puts("a - base");
+			puts("h - height");
+			break;
+		}
+		case arbitrary:
+		{
+			puts("S = (1/2) * d1 * d2 * sin(α)");
+			puts("d1 and d2 - diagonals");
+			puts("α - angle between them");
 			break;
 		}
 		default:
 		{
-			printf("%s", "S = 1/2 * d1 * d2 * sin(α)\nd1 - first diagonal\nd2 - second diagonal\nα - acute angle between diagonals");
+			puts("Invalid number entered.");
 			break;
 		}
 	}
-	return 0;
 }
 
-char get_figure()
+int get_figure()
 {
-	char input;
-	int result = scanf_s("%s", &input);
+	int input;
+	int result = scanf_s("%d", &input);
 	if (result != 1)
 	{
 		errno = EIO;
