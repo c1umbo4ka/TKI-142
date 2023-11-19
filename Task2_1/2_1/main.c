@@ -16,12 +16,24 @@ int getDay(enum day day);
 */
 int getMonth(enum month month);
 
+/**
+* @brief Пользовательский ввод.
+*/
 enum choice
 {
+	/**
+	* @brief День.
+	*/
 	Day = 1,
+	/**
+	* @brief Месяц.
+	*/
 	Month = 2
 };
 
+/**
+* @brief Дни недели.
+*/
 enum day
 {
 	Monday = 1,
@@ -33,6 +45,9 @@ enum day
 	Sunday
 };
 
+/**
+* @brief Месяцы.
+*/
 enum month
 {
 	January = 1,
