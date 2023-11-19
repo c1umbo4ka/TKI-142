@@ -13,6 +13,9 @@ int get_figure();
 */
 void get_formula(enum UserInput user_choice);
 
+/**
+* @brief Пользовательский ввод.
+*/
 enum figure
 {
 	square = 1,
