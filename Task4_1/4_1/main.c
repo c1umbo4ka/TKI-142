@@ -76,7 +76,7 @@ int get_minimum_element(int* my_array, const size_t size);
 * @brief Функция вывода индексов элементов, значение которых больше предыдущего (начиная со второго).
 * @param my_array - массив.
 * @param size - длинна массива.
-* @return индекс элементов.
+* @return Индекс элементов.
 */
 size_t get_number_of_elements_that_more_than_previous(int* my_array, const size_t size);
 
