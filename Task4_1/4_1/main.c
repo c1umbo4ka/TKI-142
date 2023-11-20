@@ -66,7 +66,7 @@ void get_random_input_array(int* my_array, const size_t size);
 void print_array(int* my_array, const size_t size);
 
 /**
-* @brief Функция для нахождения элемента массива и замены среднего элемента на него.
+* @brief Функция для нахождения минимального элемента массива и замены среднего элемента на него.
 * @param my_array - массив.
 * @param size - длинна массива.
 */
