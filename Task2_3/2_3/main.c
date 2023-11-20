@@ -10,6 +10,7 @@ int get_figure();
 
 /**
 * @brief Функция вывода формулы площади.
+* @param user_choice Аргумент функции.
 */
 void get_formula(enum UserInput user_choice);
 
@@ -18,13 +19,37 @@ void get_formula(enum UserInput user_choice);
 */
 enum figure
 {
+	/**
+ 	@brief Формула площади квадрата.
+ 	*/
 	square = 1,
+	/**
+ 	@brief Формула площади треугольника.
+ 	*/
 	triangle,
+	/**
+ 	@brief Формула площади ромба.
+ 	*/
 	rhombus,
+	/**
+ 	@brief Формула площади прямоугольника.
+ 	*/
 	rectangle,
+	/**
+ 	@brief Формула площади трапеции
+ 	*/
 	trapezoid,
+	/**
+ 	@brief Формула площади круга.
+ 	*/
 	circle,
+	/**
+ 	@brief Формула площади параллелограмма.
+ 	*/
 	parallelogram,
+	/**
+ 	@brief Формула площади произвольного выпуклого многоугольника.
+ 	*/
 	arbitrary
 };
 
