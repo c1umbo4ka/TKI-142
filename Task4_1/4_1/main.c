@@ -81,7 +81,7 @@ int get_minimum_element(int* my_array, const size_t size);
 size_t get_number_of_elements_that_more_than_previous(int* my_array, const size_t size);
 
 /**
-* @brief Функция для нахождения количества соседних элементов с разными знаками.
+* @brief Функция для нахождения количества пар соседних элементов с разными знаками.
 * @param my_array - массив.
 * @param size - длинна массива.
 * @return Успех, если таких пар больше двух.
