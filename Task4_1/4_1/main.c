@@ -85,7 +85,7 @@ void print_number_of_elements_that_more_than_previous(int* my_array, const size_
 * @param size - длинна массива.
 * @return Успех, если таких пар больше двух.
 */
-size_t get_two_pair_with_same_sign(int* my_array, const size_t size);
+char get_two_pair_with_same_sign(int* my_array, const size_t size);
 
 /**
 * @brief Точка входа в программу.
@@ -230,7 +230,7 @@ void print_number_of_elements_that_more_than_previous(int* my_array, const size_
 	}
 }
 
-size_t get_two_pair_with_same_sign(int* my_array, const size_t size)
+char get_two_pair_with_same_sign(int* my_array, const size_t size)
 {
 	int quantity = 0;
 	for (size_t i = 1; i < size; i++)
