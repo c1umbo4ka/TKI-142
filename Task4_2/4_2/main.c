@@ -82,12 +82,12 @@ void check_segment(const int minimum_limit, const int maximum_limit);
 int get_index_of_minimum_positive_element(int* my_array, size_t size);
 
 /**
-* @brief Функция для нахождения максимального элемента массива.
+* @brief Функция для нахождения первого положительного элемента массива.
 * @param my_array - массив.
 * @param size - длина массива.
 * @return Максимальный элемент массива.
 */
-int get_maximum_element(int* my_array, size_t size);
+int get_first_positive_element(int* my_array, size_t size);
 
 /**
 * @brief Функция для печати массива.
@@ -95,7 +95,7 @@ int get_maximum_element(int* my_array, size_t size);
 * @param size - длина массива.
 * @param new_size - новая длина массива.
 */
-void print_modified_array(int* my_array, size_t size, size_t new_size);
+void print_modified_array(int* my_array, size_t new_size);
 
 /**
 * @brief Функция для нахождения новой длины массива.
@@ -119,6 +119,15 @@ void get_new_array(int* my_array, size_t new_size, int* new_array);
 * @param new_size - новая длина массива.
 */
 void print_new_array(int* new_array, size_t new_size);
+
+/**
+* @brief Функция для получения изменённого массива.
+* @param my_array - старый массив.
+* @param size - старая длина массива.
+* @param new_size - новая длина массива.
+* @return Изменённый массив.
+*/
+int get_modified_array(int* my_array, size_t size, size_t new_size);
 
 int main()
 {
@@ -168,8 +177,9 @@ int main()
 
 	size_t new_size = get_new_size(my_array, size);
 
+	get_modified_array(my_array, size, new_size);
 	puts("Ответ на второе задание:");
-	print_modified_array(my_array, size, new_size);
+	print_modified_array(my_array, new_size);
 
 	int* new_array = (int*)malloc(new_size * sizeof(int));
 	get_new_array(my_array, new_size, new_array);
@@ -260,7 +270,7 @@ void print_array(int* my_array, size_t size)
 
 int get_index_of_minimum_positive_element(int* my_array, size_t size)
 {
-	int minimum_positive_element = get_maximum_element(my_array, size);
+	int minimum_positive_element = my_array[get_first_positive_element(my_array, size)];
 	int number = 0;
 	for (size_t i = 0; i < size; i++)
 	{
@@ -273,34 +283,20 @@ int get_index_of_minimum_positive_element(int* my_array, size_t size)
 	return number;
 }
 
-int get_maximum_element(int* my_array, size_t size)
+int get_first_positive_element(int* my_array, size_t size)
 {
-	int maximum_element = my_array[0];
-	for (size_t i = 1; i < size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
-		if (maximum_element < my_array[i])
+		if (my_array[i] > 0)
 		{
-			maximum_element = my_array[i];
+			return i;
+			break;
 		}
 	}
-	return maximum_element;
 }
 
-void print_modified_array(int* my_array, size_t size, size_t new_size)
+void print_modified_array(int* my_array, size_t new_size)
 {
-	for (int i = 0; i < size; i++)
-	{
-		if (my_array[i] % 10 % 2 != 0 && my_array[i] % 3 == 0)
-		{
-			for (int j = i; j < size - 1; j++)
-			{
-				my_array[j] = my_array[j + 1];
-			}
-			my_array[size - 1] = 0;
-		}
-	}
-	my_array = (int*)realloc(my_array, new_size * sizeof(int)); 
-	
 	for (size_t i = 0; i < new_size; i++)
 	{
 		printf("%Iu %d\n", i, my_array[i]);
@@ -341,4 +337,20 @@ void print_new_array(int* new_array, size_t new_size)
 	{
 		printf("%Iu %d\n", i, new_array[i]);
 	}
+}
+
+int get_modified_array(int* my_array, size_t size, size_t new_size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		if (my_array[i] % 10 % 2 != 0 && my_array[i] % 3 == 0)
+		{
+			for (int j = i; j < size - 1; j++)
+			{
+				my_array[j] = my_array[j + 1];
+			}
+			my_array[size - 1] = 0;
+		}
+	}
+	my_array = (int*)realloc(my_array, new_size * sizeof(int));
 }
