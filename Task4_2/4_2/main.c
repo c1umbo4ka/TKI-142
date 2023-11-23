@@ -87,7 +87,7 @@ int get_index_of_minimum_positive_element(int* my_array, size_t size);
 * @param size - длина массива.
 * @return Максимальный элемент массива.
 */
-int get_first_positive_element(int* my_array, size_t size);
+int get_index_of_first_positive_element(int* my_array, size_t size);
 
 /**
 * @brief Функция для печати массива.
@@ -171,9 +171,16 @@ int main()
 	}
 	}
 
-	my_array[get_index_of_minimum_positive_element(my_array, size)] = my_array[size - 1];
-	puts("Ответ на первое задание:");
-	print_array(my_array, size);
+	if (get_index_of_minimum_positive_element(my_array, size) == -1)
+	{
+		puts("В массиве нет положительных чисел.");
+	}
+	else 
+	{
+		my_array[get_index_of_minimum_positive_element(my_array, size)] = my_array[size - 1];
+		puts("Ответ на первое задание:");
+		print_array(my_array, size);
+	}
 
 	size_t new_size = get_new_size(my_array, size);
 
@@ -270,21 +277,29 @@ void print_array(int* my_array, size_t size)
 
 int get_index_of_minimum_positive_element(int* my_array, size_t size)
 {
-	int minimum_positive_element = my_array[get_first_positive_element(my_array, size)];
-	int number = 0;
-	for (size_t i = 0; i < size; i++)
+	if (get_index_of_first_positive_element(my_array, size) == -1)
 	{
-		if (minimum_positive_element > my_array[i] && my_array[i] > 0)
-		{
-			minimum_positive_element = my_array[i];
-			number = i;
-		}
+		return -1;
 	}
-	return number;
+	else
+	{
+		int minimum_positive_element = my_array[get_index_of_first_positive_element(my_array, size)];
+		int number = 0;
+		for (size_t i = 0; i < size; i++)
+		{
+			if (minimum_positive_element > my_array[i] && my_array[i] > 0)
+			{
+				minimum_positive_element = my_array[i];
+				number = i;
+			}
+		}
+		return number;
+	}
 }
 
-int get_first_positive_element(int* my_array, size_t size)
+int get_index_of_first_positive_element(int* my_array, size_t size)
 {
+	size_t i = -1;
 	for (size_t i = 0; i < size; i++)
 	{
 		if (my_array[i] > 0)
@@ -292,6 +307,10 @@ int get_first_positive_element(int* my_array, size_t size)
 			return i;
 			break;
 		}
+	}
+	if (i == -1)
+	{
+		return -1;
 	}
 }
 
