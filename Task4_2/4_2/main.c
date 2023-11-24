@@ -38,10 +38,10 @@ void get_random_input_array(int* my_array, size_t size, const int minimum_limit,
 
 /**
 * @brief Функция для печати массива.
-* @param my_array - массив.
+* @param array - массив.
 * @param size - длина массива.
 */
-void print_array(int* my_array, size_t size);
+void print_array(int* array, size_t size);
 
 /**
 * @brief Функция для считывания значения с клавиатуры.
@@ -60,11 +60,12 @@ void true_size(int int_size);
 
 /**
 * @brief Функция для проверки массива.
-* @param my_array - старый массив.
-* @param new_array - новый массив.
+* @param my_array - первый массив.
+* @param second_array - второй массив.
+* @param third_array - третий массив.
 * @remarks Экстренное завершение программы, в случае несуществования массива.
 */
-void true_array(int* my_array, int* new_array);
+void true_array(int* my_array, int* second_array, int* third_array);
 
 /**
 * @brief Функция проверки интервала массива на правильность.
@@ -75,7 +76,7 @@ void check_segment(const int minimum_limit, const int maximum_limit);
 
 /**
 * @brief Функция для нахождения индекса минимального положительного элемента массива.
-* @param my_array - массив.
+* @param my_array - первый массив.
 * @param size - длина массива.
 * @return Индекс минимального положительного элемента массива.
 */
@@ -83,51 +84,36 @@ int get_index_of_minimum_positive_element(int* my_array, size_t size);
 
 /**
 * @brief Функция для нахождения первого положительного элемента массива.
-* @param my_array - массив.
+* @param my_array - первый массив.
 * @param size - длина массива.
 * @return Максимальный элемент массива.
 */
 int get_index_of_first_positive_element(int* my_array, size_t size);
 
 /**
-* @brief Функция для печати массива.
-* @param my_array - массив.
-* @param size - длина массива.
-* @param new_size - новая длина массива.
+* @brief Функция для нахождения длины второго массива.
+* @param my_array - первый массив.
+* @param size - длина первого массива.
+* @return Длина второго массива.
 */
-void print_modified_array(int* my_array, size_t new_size);
+int get_size_of_second_array(int* my_array, size_t size);
 
 /**
-* @brief Функция для нахождения новой длины массива.
-* @param my_array - массив.
-* @param size - длина массива.
-* @return Новая длина массива.
-*/
-int get_new_size(int* my_array, size_t size);
-
-/**
-* @brief Функция для заполнения нового массива.
-* @param my_array - старый массив.
-* @param new_size - новая длина массива.
-* @paran new_array - новый массив.
-*/
-void get_new_array(int* my_array, size_t new_size, int* new_array);
-
-/**
-* @brief Функция для печати нового массива.
-* @param new_array - новый массив.
-* @param new_size - новая длина массива.
-*/
-void print_new_array(int* new_array, size_t new_size);
-
-/**
-* @brief Функция для получения изменённого массива.
-* @param my_array - старый массив.
+* @brief Функция для заполнения третьего массива.
+* @param my_array - первый массив.
 * @param size - старая длина массива.
-* @param new_size - новая длина массива.
-* @return Изменённый массив.
+* @param new_array - новый массив.
+* @return Третий массив.
 */
-int get_modified_array(int* my_array, size_t size, size_t new_size);
+int get_third_array(int* my_array, size_t new_size, int* new_array);
+
+/**
+* @brief Функция для получения второго массива.
+* @param my_array - первый массив.
+* @param size - старая длина массива.
+* @return Второй массив.
+*/
+int get_second_array(int* my_array, size_t size, int* second_array);
 
 int main()
 {
@@ -182,19 +168,19 @@ int main()
 		print_array(my_array, size);
 	}
 
-	size_t new_size = get_new_size(my_array, size);
-
-	get_modified_array(my_array, size, new_size);
+	size_t size_of_second_array = get_size_of_second_array(my_array, size);
+	int* second_array = (int*)malloc(size_of_second_array * sizeof(int));
+	get_second_array(my_array, size, second_array);
 	puts("Ответ на второе задание:");
-	print_modified_array(my_array, new_size);
+	print_array(second_array, size_of_second_array);
 
-	int* new_array = (int*)malloc(new_size * sizeof(int));
-	get_new_array(my_array, new_size, new_array);
+	int* third_array = (int*)malloc(size_of_second_array * sizeof(int));
+	get_third_array(my_array, size, third_array);
 	puts("Ответ на третье задание:");
-	print_new_array(new_array, new_size);
+	print_array(third_array, size);
 	
-	true_array(my_array, new_array);
-	free(my_array, new_array);
+	true_array(my_array, second_array, third_array);
+	free(my_array, second_array, third_array);
 	return 0;
 }
 
@@ -222,9 +208,9 @@ void true_size(int int_size)
 	}
 }
 
-void true_array(int* my_array, int* new_array)
+void true_array(int* my_array, int* second_array, int* third_array)
 {
-	if (my_array == NULL || new_array == NULL)
+	if (my_array == NULL || second_array == NULL || third_array == NULL)
 	{
 		errno = EIO;
 		perror("Ошибка ввода");
@@ -267,11 +253,11 @@ void check_segment(const int minimum_limit, const int maximum_limit)
 	}
 }
 
-void print_array(int* my_array, size_t size)
+void print_array(int* array, size_t size)
 {
 	for (size_t i = 0; i < size; i++)
 	{
-		printf("%Iu %d\n", i, my_array[i]);
+		printf("%Iu %d\n", i, array[i]);
 	}
 }
 
@@ -299,7 +285,6 @@ int get_index_of_minimum_positive_element(int* my_array, size_t size)
 
 int get_index_of_first_positive_element(int* my_array, size_t size)
 {
-	size_t i = -1;
 	for (size_t i = 0; i < size; i++)
 	{
 		if (my_array[i] > 0)
@@ -308,36 +293,25 @@ int get_index_of_first_positive_element(int* my_array, size_t size)
 			break;
 		}
 	}
-	if (i == -1)
-	{
-		return -1;
-	}
+	return -1;
 }
 
-void print_modified_array(int* my_array, size_t new_size)
+int get_third_array(int* my_array, size_t size, int* third_array)
 {
-	for (size_t i = 0; i < new_size; i++)
-	{
-		printf("%Iu %d\n", i, my_array[i]);
-	}
-}
-
-void get_new_array(int* my_array, size_t new_size, int* new_array)
-{
-	for (size_t i = 0; i < new_size; i++)
+	for (size_t i = 0; i < size; i++)
 	{
 		if ((i % 2) == 0)
 		{
-			new_array[i] = my_array[i] + i;
+			third_array[i] = my_array[i] + i;
 		}
 		else
 		{
-			new_array[i] = my_array[i] - i;
+			third_array[i] = my_array[i] - i;
 		}
 	}
 }
 
-int get_new_size(int* my_array, size_t size)
+int get_size_of_second_array(int* my_array, size_t size)
 {
 	int quantity_of_elements_removed = 0;
 	for (int i = 0; i < size; i++)
@@ -350,26 +324,15 @@ int get_new_size(int* my_array, size_t size)
 	return (size - quantity_of_elements_removed);
 }
 
-void print_new_array(int* new_array, size_t new_size)
+int get_second_array(int* my_array, size_t size, int* second_array)
 {
-	for (size_t i = 0; i < new_size; i++)
-	{
-		printf("%Iu %d\n", i, new_array[i]);
-	}
-}
-
-int get_modified_array(int* my_array, size_t size, size_t new_size)
-{
+	int j = 0;
 	for (int i = 0; i < size; i++)
 	{
-		if (my_array[i] % 10 % 2 != 0 && my_array[i] % 3 == 0)
+		if (my_array[i] % 10 % 2 == 0 || my_array[i] % 3 != 0)
 		{
-			for (int j = i; j < size - 1; j++)
-			{
-				my_array[j] = my_array[j + 1];
-			}
-			my_array[size - 1] = 0;
+			second_array[j] = my_array[i];
+			j++;
 		}
 	}
-	my_array = (int*)realloc(my_array, new_size * sizeof(int));
 }
