@@ -115,10 +115,26 @@ int* get_third_array(int* my_array, size_t size);
 */
 int* get_second_array(int* my_array, size_t size, size_t size_of_second_array);
 
+/**
+* @brief Функция считывания размера массива.
+* return Размер массива
+*/
 size_t get_size();
 
+/**
+* @brief Функция проверки наличия положительных элементов в массиве.
+* @param my_array - массив.
+* @param size - размер массива.
+* @return Возвращает истину в случае успеха.
+*/
 bool check_positive_elements(int* my_array, size_t size);
 
+/**
+* @brief Функция для заполнения первого массива.
+* @param my_array - массив.
+* @param size - размер массива.
+* @return Первый массив.
+*/
 int* get_first_array(int* my_array, size_t size);
 
 /**
@@ -136,6 +152,7 @@ int main()
 	check_segment(minimum_limit, maximum_limit);
 
 	int* my_array = (int*)malloc(size * sizeof(int));
+	true_array(my_array);
 
 	puts("Введите номер соответствующий способу, которым вы хотите ввести массив:\n");
 	printf_s("%d - для заполнения массива с клавиатуры\n", MANUAL);
