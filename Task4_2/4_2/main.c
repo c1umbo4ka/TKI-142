@@ -65,7 +65,7 @@ void true_size(int int_size);
 * @param third_array - третий массив.
 * @remarks Экстренное завершение программы, в случае несуществования массива.
 */
-void true_array(int* my_array);
+void true_array(int* my_array, int* second_array, int* third_array);
 
 /**
 * @brief Функция проверки интервала массива на правильность.
@@ -174,8 +174,8 @@ int main()
 	puts("Ответ на третье задание:");
 	print_array(get_third_array(my_array, size), size);
 	
-	true_array(my_array);
-	free(my_array);
+	true_array(my_array, get_second_array(my_array, size, get_size_of_second_array(my_array, size)), get_third_array(my_array, size));
+	free(my_array, get_second_array(my_array, size, get_size_of_second_array(my_array, size)), get_third_array(my_array, size));
 	return 0;
 }
 
@@ -203,9 +203,9 @@ void true_size(int int_size)
 	}
 }
 
-void true_array(int* my_array)
+void true_array(int* my_array, int* second_array, int* third_array)
 {
-	if (my_array == NULL)
+	if (my_array == NULL || second_array == NULL || third_array == NULL)
 	{
 		errno = EIO;
 		perror("Ошибка ввода");
