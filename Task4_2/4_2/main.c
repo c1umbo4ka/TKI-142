@@ -80,7 +80,7 @@ void check_segment(const int minimum_limit, const int maximum_limit);
 * @param size - длина массива.
 * @return Индекс минимального положительного элемента массива.
 */
-int get_index_of_minimum_positive_element(int* my_array, size_t size);
+size_t get_index_of_minimum_positive_element(int* my_array, size_t size);
 
 /**
 * @brief Функция для нахождения первого положительного элемента массива.
@@ -88,7 +88,7 @@ int get_index_of_minimum_positive_element(int* my_array, size_t size);
 * @param size - длина массива.
 * @return Максимальный элемент массива.
 */
-int get_index_of_first_positive_element(int* my_array, size_t size);
+size_t get_index_of_first_positive_element(int* my_array, size_t size);
 
 /**
 * @brief Функция для нахождения длины второго массива.
@@ -281,7 +281,7 @@ void print_array(int* array, size_t size)
 	}
 }
 
-int get_index_of_minimum_positive_element(int* my_array, size_t size)
+size_t get_index_of_minimum_positive_element(int* my_array, size_t size)
 {
 	{
 		int minimum_positive_element = my_array[get_index_of_first_positive_element(my_array, size)];
@@ -298,7 +298,7 @@ int get_index_of_minimum_positive_element(int* my_array, size_t size)
 	}
 }
 
-int get_index_of_first_positive_element(int* my_array, size_t size)
+size_t get_index_of_first_positive_element(int* my_array, size_t size)
 {
 	for (size_t i = 0; i < size; i++)
 	{
