@@ -65,7 +65,7 @@ void true_size(int int_size);
 * @param third_array - третий массив.
 * @remarks Экстренное завершение программы, в случае несуществования массива.
 */
-void true_array(int* my_array, int* second_array, int* third_array);
+void true_array(int* my_array);
 
 /**
 * @brief Функция проверки интервала массива на правильность.
@@ -115,13 +115,21 @@ int* get_third_array(int* my_array, size_t size);
 */
 int* get_second_array(int* my_array, size_t size, size_t size_of_second_array);
 
+size_t get_size();
+
+bool check_positive_elements(int* my_array, size_t size);
+
+int* get_first_array(int* my_array, size_t size);
+
+/**
+* @brief Точка входа в программу.
+* @return Возвращает 0 в случае успеха.
+*/
 int main()
 {
 	setlocale(LC_ALL, "RU");
 
-	int int_size = get_value("Введите размер массива: ");
-	true_size(int_size);
-	size_t size = (size_t)(int_size);
+	size_t size = get_size();
 
 	const int minimum_limit = get_value("Введите минимум массива: ");
 	const int maximum_limit = get_value("Введите максимум массива: ");
@@ -157,15 +165,15 @@ int main()
 	}
 	}
 
-	if (get_index_of_minimum_positive_element(my_array, size) == -1)
+	if (check_positive_elements(my_array, size))
 	{
-		puts("В массиве нет положительных чисел.");
+		
+		puts("Ответ на первое задание:");
+		print_array(get_first_array(my_array, size), size);
 	}
 	else 
 	{
-		my_array[get_index_of_minimum_positive_element(my_array, size)] = my_array[size - 1];
-		puts("Ответ на первое задание:");
-		print_array(my_array, size);
+		puts("В массиве нет положительных чисел.");
 	}
 
 	puts("Ответ на второе задание:");
@@ -174,8 +182,8 @@ int main()
 	puts("Ответ на третье задание:");
 	print_array(get_third_array(my_array, size), size);
 	
-	true_array(my_array, get_second_array(my_array, size, get_size_of_second_array(my_array, size)), get_third_array(my_array, size));
-	free(my_array, get_second_array(my_array, size, get_size_of_second_array(my_array, size)), get_third_array(my_array, size));
+	true_array(my_array);
+	free(my_array);
 	return 0;
 }
 
@@ -203,9 +211,9 @@ void true_size(int int_size)
 	}
 }
 
-void true_array(int* my_array, int* second_array, int* third_array)
+void true_array(int* my_array)
 {
-	if (my_array == NULL || second_array == NULL || third_array == NULL)
+	if (my_array == NULL)
 	{
 		errno = EIO;
 		perror("Ошибка ввода");
@@ -258,11 +266,6 @@ void print_array(int* array, size_t size)
 
 int get_index_of_minimum_positive_element(int* my_array, size_t size)
 {
-	if (get_index_of_first_positive_element(my_array, size) == -1)
-	{
-		return -1;
-	}
-	else
 	{
 		int minimum_positive_element = my_array[get_index_of_first_positive_element(my_array, size)];
 		int number = 0;
@@ -288,24 +291,22 @@ int get_index_of_first_positive_element(int* my_array, size_t size)
 			break;
 		}
 	}
-	return -1;
 }
 
 int* get_third_array(int* my_array, size_t size)
 {
-	int* third_array = (int*)malloc(size * sizeof(int));
 	for (size_t i = 0; i < size; i++)
 	{
 		if ((i % 2) == 0)
 		{
-			third_array[i] = my_array[i] + i;
+			my_array[i] = my_array[i] + i;
 		}
 		else
 		{
-			third_array[i] = my_array[i] - i;
+			my_array[i] = my_array[i] - i;
 		}
 	}
-	return third_array;
+	return my_array;
 }
 
 int get_size_of_second_array(int* my_array, size_t size)
@@ -334,4 +335,31 @@ int* get_second_array(int* my_array, size_t size, size_t size_of_second_array)
 		}
 	}
 	return second_array;
+}
+
+size_t get_size()
+{
+	int int_size = get_value("Введите размер массива: ");
+	true_size(int_size);
+	size_t size = (size_t)(int_size);
+	return size;
+}
+
+bool check_positive_elements(int* my_array, size_t size)
+{
+	for (size_t i = 0; i < size; i++)
+	{
+		if (my_array[i] > 0)
+		{
+			return true;
+			break;
+		}
+	}
+	return false;
+}
+
+int* get_first_array(int* my_array, size_t size)
+{
+	my_array[get_index_of_minimum_positive_element(my_array, size)] = my_array[size - 1];
+	return my_array;
 }
