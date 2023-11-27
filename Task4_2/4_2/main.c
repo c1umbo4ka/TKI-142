@@ -171,8 +171,6 @@ int main()
 	puts("Ответ на второе задание:");
 	print_array(get_second_array(my_array, size, get_size_of_second_array(my_array, size)), get_size_of_second_array(my_array, size));
 
-	
-	get_third_array(my_array, size);
 	puts("Ответ на третье задание:");
 	print_array(get_third_array(my_array, size), size);
 	
