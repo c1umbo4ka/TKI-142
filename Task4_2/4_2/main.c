@@ -65,7 +65,7 @@ void true_size(int int_size);
 * @param third_array - третий массив.
 * @remarks Экстренное завершение программы, в случае несуществования массива.
 */
-void true_array(int* my_array, int* second_array, int* third_array);
+void true_array(int* my_array);
 
 /**
 * @brief Функция проверки интервала массива на правильность.
@@ -102,18 +102,18 @@ int get_size_of_second_array(int* my_array, size_t size);
 * @brief Функция для заполнения третьего массива.
 * @param my_array - первый массив.
 * @param size - старая длина массива.
-* @param new_array - новый массив.
 * @return Третий массив.
 */
-int get_third_array(int* my_array, size_t new_size, int* new_array);
+int* get_third_array(int* my_array, size_t size);
 
 /**
 * @brief Функция для получения второго массива.
 * @param my_array - первый массив.
 * @param size - старая длина массива.
+* @param size_of_second_array - длина второго массива.
 * @return Второй массив.
 */
-int get_second_array(int* my_array, size_t size, int* second_array);
+int* get_second_array(int* my_array, size_t size, size_t size_of_second_array);
 
 int main()
 {
@@ -168,19 +168,16 @@ int main()
 		print_array(my_array, size);
 	}
 
-	size_t size_of_second_array = get_size_of_second_array(my_array, size);
-	int* second_array = (int*)malloc(size_of_second_array * sizeof(int));
-	get_second_array(my_array, size, second_array);
 	puts("Ответ на второе задание:");
-	print_array(second_array, size_of_second_array);
+	print_array(get_second_array(my_array, size, get_size_of_second_array(my_array, size)), get_size_of_second_array(my_array, size));
 
-	int* third_array = (int*)malloc(size_of_second_array * sizeof(int));
-	get_third_array(my_array, size, third_array);
-	puts("Ответ на третье задание:");
-	print_array(third_array, size);
 	
-	true_array(my_array, second_array, third_array);
-	free(my_array, second_array, third_array);
+	get_third_array(my_array, size);
+	puts("Ответ на третье задание:");
+	print_array(get_third_array(my_array, size), size);
+	
+	true_array(my_array);
+	free(my_array);
 	return 0;
 }
 
@@ -208,9 +205,9 @@ void true_size(int int_size)
 	}
 }
 
-void true_array(int* my_array, int* second_array, int* third_array)
+void true_array(int* my_array)
 {
-	if (my_array == NULL || second_array == NULL || third_array == NULL)
+	if (my_array == NULL)
 	{
 		errno = EIO;
 		perror("Ошибка ввода");
@@ -296,8 +293,9 @@ int get_index_of_first_positive_element(int* my_array, size_t size)
 	return -1;
 }
 
-int get_third_array(int* my_array, size_t size, int* third_array)
+int* get_third_array(int* my_array, size_t size)
 {
+	int* third_array = (int*)malloc(size * sizeof(int));
 	for (size_t i = 0; i < size; i++)
 	{
 		if ((i % 2) == 0)
@@ -309,6 +307,7 @@ int get_third_array(int* my_array, size_t size, int* third_array)
 			third_array[i] = my_array[i] - i;
 		}
 	}
+	return third_array;
 }
 
 int get_size_of_second_array(int* my_array, size_t size)
@@ -324,8 +323,9 @@ int get_size_of_second_array(int* my_array, size_t size)
 	return (size - quantity_of_elements_removed);
 }
 
-int get_second_array(int* my_array, size_t size, int* second_array)
+int* get_second_array(int* my_array, size_t size, size_t size_of_second_array)
 {
+	int* second_array = (int*)malloc(size_of_second_array * sizeof(int));
 	int j = 0;
 	for (int i = 0; i < size; i++)
 	{
@@ -335,4 +335,5 @@ int get_second_array(int* my_array, size_t size, int* second_array)
 			j++;
 		}
 	}
+	return second_array;
 }
