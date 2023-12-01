@@ -84,7 +84,16 @@ int** get_first_array(int** my_array, size_t n, size_t m);
 int get_maximum_modulus_element(int** my_array, size_t n, size_t m);
 
 
-int** get_second_array(int** my_array, size_t n, size_t m);
+int** get_second_array(int** my_array, size_t n, size_t m, size_t new_n);
+
+
+int** add_line(int** my_array, size_t n, size_t m, int i, size_t new_n);
+
+
+bool have_line_maximum_modulus_element(int** my_array, size_t n, size_t m, int i);
+
+
+int get_new_n(int** my_array, size_t n, size_t m, size_t new_n);
 
 /**
 * @brief Точка входа в программу.
@@ -141,8 +150,10 @@ int main()
 	puts("Ответ на первое задание:");
 	print_array(get_first_array(my_array, n, m), n, m);
 
+	size_t new_n = 0;
+	get_new_n(my_array, n, m, new_n);
 	puts("Ответ на третье задание:");
-	print_array(get_second_array(my_array, n, m), n, m);
+	print_array(get_second_array(my_array, n, m, new_n), new_n, m);
 
 	return 0;
 }
@@ -273,49 +284,57 @@ int get_maximum_modulus_element(int** my_array, size_t n, size_t m)
 	return max;
 }
 
-int get_size_of_second_array(int** my_array, size_t n, size_t m)
+int** get_second_array(int** my_array, size_t n, size_t m, size_t new_n)
 {
-	int number_of_added_lines = 0;
-	for (int i = 0; i < n; i++)
+	for (int i = 0; i < new_n; i++)
 	{
-		for (int j = 0; j < m; j++)
+		if (have_line_maximum_modulus_element(my_array, n, m, i))
 		{
-			if (abs(my_array[i * m + j]) == get_maximum_modulus_element(my_array, n, m))
-			{
-				number_of_added_lines += 1;
-				i++;
-				j = 0;
-				if (i > n)
-				{
-					break;
-				}
-			}
+			my_array = add_line(my_array, n, m, i, new_n);
+			i++;
+			new_n++;
 		}
 	}
-	return ((n + number_of_added_lines) * m);
+	return my_array;
 }
 
-int** get_second_array(int** my_array, size_t n, size_t m)
+int** add_line(int** my_array, size_t n, size_t m, int i, size_t new_n) 
 {
-	int** second_array = (int**)realloc(my_array, get_size_of_second_array(my_array, n, m) * sizeof(int**));
-	int k = get_size_of_second_array(my_array, n, m);
-	for (int i = 0; i < k; i++)
+	int** new_array = (int**)realloc(my_array, n * sizeof(int*));
+	my_array = new_array;
+	my_array[n - 1] = (int*)malloc(m * sizeof(int));
+	new_array = my_array;
+	for (size_t l = n - 2; l > i; l--)
 	{
-		for (int j = 0; j < m; j++)
+		for (int j = 0; j < m; j++) 
 		{
-			if (abs(my_array[i * m + j]) == get_maximum_modulus_element(my_array, n, m))
-			{
-				for (int l = k; l > i * m + j; l--)
-				{
-					my_array[l-1] = my_array[l - m - 1];
-					my_array[i * m + j] = 0;
-					k++;
-					i+=2;
-					j = 0;
-				}
-			}
+			new_array[(l + 1) * m + j] = my_array[j];
 		}
 	}
+	return new_array;
+}
 
-	return second_array;
+bool have_line_maximum_modulus_element(int** my_array, size_t n, size_t m, int i)
+{
+	for (int j = 0; j < m; j++)
+	{
+		if (abs(my_array[i * m + j]) == get_maximum_modulus_element(my_array, n, m))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+int get_new_n(int** my_array, size_t n, size_t m, size_t new_n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		if (have_line_maximum_modulus_element(my_array, n, m, i))
+		{
+			i++;
+			new_n++;
+		}
+	}
+	return new_n;
 }
