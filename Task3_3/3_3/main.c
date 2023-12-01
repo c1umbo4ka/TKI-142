@@ -29,12 +29,11 @@ double get_series_sum(double x, const double e);
 double get_function(double x);
 
 /**
-* @brief Функция проверки ввода отрезка на правильность.
-* @param message - сообщение пользователю.
+* @brief Функция проверки ввода шага на правильность.
+* @param h - шаг функции.
 * @remarks Экстренное завершение программы, в случае неправильного ввода.
-* @return Возвращает значение в случае успеха.
 */
-double get_segment(const char* message);
+void check_step(int h);
 
 /**
 * @brief Функция проверки шага на правильность.
@@ -46,6 +45,9 @@ double get_value(const char* message);
 
 /**
 * @brief Функция проверки отрезка на существование.
+* @param a - начало отрезка.
+* @param b - конец
+отрезка.
 */
 void check_segment(const double a, const double b);
 
@@ -57,10 +59,11 @@ int main()
 {
 	setlocale(LC_ALL, "RU");
 
-	const double a = get_segment("Введите начало интервала: ");
-	const double b = get_segment("Введите конец интервала: ");
+	const double a = get_value("Введите начало интервала: ");
+	const double b = get_value("Введите конец интервала: ");
 	check_segment(a, b);
 	const double h = get_value("Введите шаг функции: ");
+	check_step(h);
 	const double e = pow(10, -4);
 
 	double x = a;
@@ -102,19 +105,13 @@ double get_function(double x)
 		return (exp(x) + exp(-x)) / 2;
 }
 
-double get_segment(const char* message)
+void check_step(int h)
 {
-	double value;
-	printf("%s", message);
-	int result = scanf_s("%lf", &value);
-
-	if (result != 1)
+	if (h < -DBL_EPSILON)
 	{
-		errno = EIO;
-		perror("Ошибка ввода");
+		puts("Неверно введен шаг.");
 		abort();
 	}
-	return value;
 }
 
 void check_segment(const double a, const double b)
@@ -132,7 +129,7 @@ double get_value(const char* message)
 	printf("%s", message);
 	int result = scanf_s("%lf", &value);
 
-	if (result != 1 || value < DBL_EPSILON)
+	if (result != 1)
 	{
 		errno = EIO;
 		perror("Ошибка ввода");
