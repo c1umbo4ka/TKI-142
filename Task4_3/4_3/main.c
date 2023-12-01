@@ -87,13 +87,13 @@ int get_maximum_modulus_element(int** my_array, size_t n, size_t m);
 int** get_second_array(int** my_array, size_t n, size_t m, size_t new_n);
 
 
-int** add_line(int** my_array, size_t n, size_t m, int i, size_t new_n);
-
-
 bool have_line_maximum_modulus_element(int** my_array, size_t n, size_t m, int i);
 
 
-int get_new_n(int** my_array, size_t n, size_t m, size_t new_n);
+int get_new_n(int** my_array, size_t n, size_t m);
+
+
+int** insertRow(int** my_array, size_t new_n, size_t m, int i);
 
 /**
 * @brief Точка входа в программу.
@@ -149,12 +149,16 @@ int main()
 
 	puts("Ответ на первое задание:");
 	print_array(get_first_array(my_array, n, m), n, m);
+	printf("%d\n", my_array[3]);
+	printf("%d\n", my_array[4]);
+	printf("%d", my_array[3] - my_array[4]);
 
-	size_t new_n = 0;
-	get_new_n(my_array, n, m, new_n);
-	puts("Ответ на третье задание:");
+	size_t new_n = get_new_n(my_array, n, m);
+	puts("Ответ на второе задание:");
 	print_array(get_second_array(my_array, n, m, new_n), new_n, m);
 
+	true_array(my_array);
+	free(my_array);
 	return 0;
 }
 
@@ -247,10 +251,10 @@ void print_array(int** my_array, size_t n, size_t m)
 int get_index_of_max_in_array_column(int** my_array, size_t n, size_t m, int j)
 {
 	int max = my_array[j];
-	int number = 0;
-	for (int i = 0; i < n; i++)
+	size_t number = j;
+	for (int i = 1; i < n; i++)
 	{
-		if (max < my_array[i * m + j])
+		if (my_array[i * m + j] - max > 0)
 		{
 			max = my_array[i * m + j];
 			number = i * m + j;
@@ -259,14 +263,14 @@ int get_index_of_max_in_array_column(int** my_array, size_t n, size_t m, int j)
 	return number;
 }
 
-int** get_first_array(int** my_array, const size_t n, const size_t m)
-{
-	for (int j = 0; j < m; j++)
-	{
-		my_array[get_index_of_max_in_array_column(my_array, n, m, j)] = 0;
-	}
-	return my_array;
-}
+//int** get_first_array(int** my_array, const size_t n, const size_t m)
+//{
+	//for (int j = 0; j < m; j++)
+	//{
+		//my_array[get_index_of_max_in_array_column(my_array, n, m, j)] = 0;
+	//}
+	//return my_array;
+//}
 
 int get_maximum_modulus_element(int** my_array, size_t n, size_t m)
 {
@@ -286,32 +290,16 @@ int get_maximum_modulus_element(int** my_array, size_t n, size_t m)
 
 int** get_second_array(int** my_array, size_t n, size_t m, size_t new_n)
 {
+	int** new_array = (int**)realloc(my_array, (new_n * m) * sizeof(int));
 	for (int i = 0; i < new_n; i++)
 	{
 		if (have_line_maximum_modulus_element(my_array, n, m, i))
 		{
-			my_array = add_line(my_array, n, m, i, new_n);
+			my_array = insertRow(my_array, n, m, i, new_n);
 			i++;
-			new_n++;
 		}
 	}
 	return my_array;
-}
-
-int** add_line(int** my_array, size_t n, size_t m, int i, size_t new_n) 
-{
-	int** new_array = (int**)realloc(my_array, n * sizeof(int*));
-	my_array = new_array;
-	my_array[n - 1] = (int*)malloc(m * sizeof(int));
-	new_array = my_array;
-	for (size_t l = n - 2; l > i; l--)
-	{
-		for (int j = 0; j < m; j++) 
-		{
-			new_array[(l + 1) * m + j] = my_array[j];
-		}
-	}
-	return new_array;
 }
 
 bool have_line_maximum_modulus_element(int** my_array, size_t n, size_t m, int i)
@@ -326,15 +314,56 @@ bool have_line_maximum_modulus_element(int** my_array, size_t n, size_t m, int i
 	return false;
 }
 
-int get_new_n(int** my_array, size_t n, size_t m, size_t new_n)
+int get_new_n(int** my_array, size_t n, size_t m)
 {
+	size_t k = 0;
 	for (int i = 0; i < n; i++)
 	{
 		if (have_line_maximum_modulus_element(my_array, n, m, i))
 		{
 			i++;
-			new_n++;
+			k++;
 		}
 	}
-	return new_n;
+	return n + k;
+}
+
+int** insertRow(int** my_array, size_t new_n, size_t m, int i) 
+{
+	// Сдвигаем все строки после rowIndex вниз
+	for (int l = new_n - 1; l > i; l--) {
+		for (int j = 0; j < m; j++) {
+			my_array[l * m + j] = my_array[(l - 1) * m + j];
+		}
+	}
+
+	// Вставляем новую строку в массив
+	for (int j = 0; j < m; j++) 
+	{
+		my_array[i * m + j] = my_array[j];
+	}
+	return my_array;
+}
+
+int** get_first_array(int** my_array, size_t n, size_t m)
+{
+	for (int j = 0; j < m; j++)
+	{
+		int max = my_array[j]; // Предполагаем, что первый элемент столбца является максимальным
+		int max_index = 0; // Индекс максимального элемента в столбце
+
+		// Проходим по каждому элементу столбца
+		for (int i = 1; i < n; i++)
+		{
+			if (my_array[i * m + j] > max)
+			{
+				max = my_array[i * m + j];
+				max_index = i;
+			}
+		}
+
+		// Заменяем максимальный элемент на 0
+		my_array[max_index * m + j] = 0;
+	}
+	return my_array;
 }
