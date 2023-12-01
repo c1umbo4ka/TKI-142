@@ -87,7 +87,7 @@ double get_series_sum(double x, const double e)
 	while (fabs(previous - current) >= e)
 	{
 		previous = current;
-		current = previous * get_recurrent(x, k);
+		current *= get_recurrent(x, k);
 		sum += current;
 		k++;
 	}
