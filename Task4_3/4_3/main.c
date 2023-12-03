@@ -332,15 +332,13 @@ int** array_for_first_task(int** my_array, size_t lines, size_t columns)
 
 	for (size_t c = 0; c < columns; c++)
 	{
-		bool check = false;
 		for (size_t l = 0; l < lines; l++)
 		{
 			new_array[l][c] = my_array[l][c];
 
-			if (my_array[l][c] == max_elements[c] && check == false)
+			if (my_array[l][c] == max_elements[c])
 			{
 				new_array[l][c] = 0;
-				check = true;
 			}
 		}
 	}
