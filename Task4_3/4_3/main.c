@@ -2,8 +2,8 @@
 #include <locale.h>
 #include <errno.h>
 #include <math.h>
-#include <float.h>
 #include <stdlib.h>
+#include <float.h>
 #include <time.h>
 #include <stdbool.h>
 
@@ -23,27 +23,6 @@ enum array_input_choice
 };
 
 /**
-* @brief Функция для считывания элементов массива с клавиатуры.
-* @param size - длина массива.
-* @param my_array - массив.
-*/
-void get_manual_input_array(int** my_array, size_t n, size_t m, const int minimum_limit, const int maximum_limit);
-
-/**
-* @brief Функция для заполнения массива случайными числами.
-* @param size - длина массива.
-* @param my_array - массив.
-*/
-void get_random_input_array(int** my_array, size_t n, size_t m, const int minimum_limit, const int maximum_limit);
-
-/**
-* @brief Функция для печати массива.
-* @param array - массив.
-* @param size - длина массива.
-*/
-void print_array(int** my_array, size_t n, size_t m);
-
-/**
 * @brief Функция для считывания значения с клавиатуры.
 * @param message - сообщение пользователю.
 * @remarks Экстренное завершение программы, в случае неправильного ввода.
@@ -52,71 +31,148 @@ void print_array(int** my_array, size_t n, size_t m);
 int get_value(const char* message);
 
 /**
-* @brief Функция для проверки длинны массива.
-* @param int_size - длина массива.
-* @remarks Экстренное завершение программы, в случае неправильной длинны массива.
+* @brief Функция для проверки длинны или ширины массива.
+* @param int_size - количество строк или столбцов массива.
+* @remarks Экстренное завершение программы, в случае неправильной длинны или ширины массива.
 */
-void true_size(int n, int m);
+void is_size(int int_size);
+
+/**
+* @brief Функция для выделения памяти для массива.
+* @param lines - количество строк массива.
+* @param columns - количество столбцов массива.
+* @return Указатель на выделенную для массива память.
+*/
+int** allocating_memory_for_array(const size_t lines, const size_t columns);
 
 /**
 * @brief Функция для проверки массива.
-* @param my_array - первый массив.
-* @param second_array - второй массив.
-* @param third_array - третий массив.
-* @remarks Экстренное завершение программы, в случае несуществования массива.
+* @param my_array - массив.
+* @remarks Экстренное завершение программы, если место для массива не выделено.
 */
-void true_array(int** my_array);
+void is_array(int** my_array);
 
 /**
-* @brief Функция проверки интервала массива на правильность.
-* @param minimum_limit - минимальный возможный элемент массива.
-* @param maximum_limit - максимальный возможный элемент массива.
+* @brief Функция для считывания элементов массива с клавиатуры.
+* @param my_array - массив.
+* @param lines - количество строк массива.
+* @param columns - количество столбцов массива.
+* @param minimum_limit - минимальный элемент массива.
+* @param maximum_limit - максимальный элемент массива.
 */
-void check_segment(int minimum_limit, const int maximum_limit);
+void get_manual_input_array(int** my_array, const size_t lines, const size_t columns, const int minimum_limit, const int maximum_limit);
 
+/**
+* @brief Функция для заполнения массива случайными числами.
+* @param my_array - массив.
+* @param lines - количество строк массива.
+* @param columns - количество столбцов массива.
+* @param minimum_limit - минимальный элемент массива.
+* @param maximum_limit - максимальный элемент массива.
+*/
+void get_random_input_array(int** my_array, const size_t lines, const size_t columns, const int minimum_limit, const int maximum_limit);
 
-int get_index_of_max_in_array_column(int** my_array, size_t n, size_t m, int j);
+/**
+* @brief Функция для печати массива.
+* @param my_array - массив.
+* @param lines - количество строк массива.
+* @param columns - количество столбцов массива.
+*/
+void print_array(int** my_array, size_t lines, size_t columns);
 
+/**
+* @brief Функция для замены максимальных элементов каждого столбца нулем.
+* @param my_array - массив.
+* @param lines - количество строк массива.
+* @param columns - количество столбцов массива.
+* @return Массив с заменёнными числами.
+*/
+int** array_for_first_task(int** my_array, size_t lines, size_t columns);
 
-int** get_first_array(int** my_array, size_t n, size_t m);
+/**
+* @brief Функция для создания и заполнения массива, в котором после строк, содержащих минимальный элемент, идут строки с порядковыми числами.
+* @param my_array - исходный массив.
+* @param lines - количество строк массива.
+* @param columns - количество столбцов массива.
+* @param maximum_element - максимальный по модулю элемент массива.
+* @param new_lines - количество строк массива, в котором будут содержаться строки с порядковыми числами.
+* @return Массив, содержащий строки с элементами первой строки исходного массива.
+*/
+int** array_for_second_task(int** my_array, size_t lines, size_t columns, int maximum_element, size_t new_lines);
 
+/**
+* @brief Функция для нахождения максимального по модулю элемента массива.
+* @param my_array - массив.
+* @param lines - количество строк массива.
+* @param columns - количество столбцов массива.
+* @return Максимальный по модулю элемент массива.
+*/
+int get_maximum_modulus_element(int** my_array, size_t lines, size_t columns);
 
-int get_maximum_modulus_element(int** my_array, size_t n, size_t m);
+/**
+* @brief Функция для определения содержит строка максимальный по модулю элемент или нет.
+* @param my_array - строка массива.
+* @param columns - количество столбцов массива.
+* @param maximum_element - максимальный по модулю элемент массива.
+* @return true если строка содержит минимальный элемент массива, иначе false.
+*/
+bool line_have_maximum_element(int* my_array, size_t columns, int maximum_element);
 
+/**
+* @brief Функция для подсчёта количества строк массива с минимальным элементом.
+* @param my_array - массив.
+* @param lines - количество строк массива.
+* @param columns - количество столбцов массива.
+* @param maximum_element - максимальный по модулю элемент массива.
+* @return Количество строк массива с максимальным по модулю элементо массива.
+*/
+size_t number_new_lines(int** my_array, size_t lines, size_t columns, int maximum_element);
 
-int** get_second_array(int** my_array, size_t n, size_t m, size_t new_n);
+/**
+* @brief Функция для создания массива с первой строкой исходного массива.
+* @param my_array - исходный массив.
+* @param columns - количество столбцов массива.
+*/
+int* get_array_with_first_line(int** my_array, size_t columns);
 
+/**
+* @brief Функция для проверки отрезка массива.
+* @param minimum_limit - минимальный элемент массива.
+* @param maximum_limit - максимальный элемент массива.
+*/
+void check_segment(const int minimum_limit, const int maximum_limit);
 
-bool have_line_maximum_modulus_element(int** my_array, size_t n, size_t m, int i);
-
-
-int get_new_n(int** my_array, size_t n, size_t m);
-
-
-int** insertRow(int** my_array, size_t new_n, size_t m, int i);
+/**
+* @brief Функция для создания и заполнения массива с максимальными жлементами каждого столбца исходного массива.
+* @param my_array - исходный массив.
+* @param lines - количество строк массива.
+* @param columns - количество столбцов массива.
+*/
+int* get_array_with_maximum_elements_in_columns(int** my_array, size_t lines, size_t columns);
 
 /**
 * @brief Точка входа в программу.
 * @return Возвращает 0 в случае успеха.
 */
 int main()
-
 {
 	setlocale(LC_ALL, "RU");
 
-	size_t n = get_value("Введите количество строк матрицы: ");
-	size_t m = get_value("Введите количество столбцов матрицы: ");
-	true_size(n, m);
+	int int_columns = get_value("Введите количество столбцов массива: ");
+	is_size(int_columns);
+	size_t columns = (size_t)(int_columns);
+	
+	int int_lines = get_value("Введите количество строк массива: ");
+	is_size(int_lines);
+	size_t lines = (size_t)(int_lines);
 
 	const int minimum_limit = get_value("Введите минимум массива: ");
 	const int maximum_limit = get_value("Введите максимум массива: ");
 	check_segment(minimum_limit, maximum_limit);
 
-	int** my_array = (int*)malloc(n * m * sizeof(int));
+	int** my_array = allocating_memory_for_array(lines, columns);
 
-	true_array(my_array);
-
-	puts("Введите номер соответствующий способу, которым вы хотите ввести массив:\n");
+	puts("Введите номер соответствующий способу, которым вы хотите ввести массив:");
 	printf_s("%d - для заполнения массива с клавиатуры\n", MANUAL);
 	printf_s("%d - для заполнения массива случайными числами\n", RANDOM);
 
@@ -128,12 +184,12 @@ int main()
 	{
 	case MANUAL:
 	{
-		get_manual_input_array(my_array, n, m, minimum_limit, maximum_limit);
+		get_manual_input_array(my_array, lines, columns, minimum_limit, maximum_limit);
 		break;
 	}
 	case RANDOM:
 	{
-		get_random_input_array(my_array, n, m, minimum_limit, maximum_limit);
+		get_random_input_array(my_array, lines, columns, minimum_limit, maximum_limit, minimum_limit, maximum_limit);
 		break;
 	}
 	default:
@@ -143,31 +199,34 @@ int main()
 		return EXIT_FAILURE;
 	}
 	}
-	
-	puts("Исходный массив:");
-	print_array(my_array, n, m);
+	puts("Исходный массив: ");
+	print_array(my_array, lines, columns);
 
-	puts("Ответ на первое задание:");
-	print_array(get_first_array(my_array, n, m), n, m);
-	printf("%d\n", my_array[3]);
-	printf("%d\n", my_array[4]);
-	printf("%d", my_array[3] - my_array[4]);
+	puts("Ответ на первое задание: ");
+	print_array(array_for_first_task(my_array, lines, columns), lines, columns);
 
-	size_t new_n = get_new_n(my_array, n, m);
-	puts("Ответ на второе задание:");
-	print_array(get_second_array(my_array, n, m, new_n), new_n, m);
+	int maximum_element = get_maximum_modulus_element(my_array, lines, columns);
+	size_t new_lines = lines + number_new_lines(my_array, lines, columns, maximum_element);
+	puts("Ответ на второе задание: ");
+	print_array(array_for_second_task(my_array, lines, columns, maximum_element, new_lines), new_lines, columns);
 
-	true_array(my_array);
+	is_array(my_array);
+
+	for (size_t l = 0; l < lines; l++)
+	{
+		free(my_array[l]);
+	}
 	free(my_array);
-	return 0;
+
+	return EXIT_SUCCESS;
 }
 
 int get_value(const char* message)
 {
 	int value;
-	printf_s("%s", message);
-	int result = scanf_s("%d", &value);
-	if (result != 1)
+	printf("%s", message);
+	int res = scanf_s("%d", &value);
+	if (res != 1)
 	{
 		errno = EIO;
 		perror("Ошибка ввода");
@@ -176,9 +235,9 @@ int get_value(const char* message)
 	return value;
 }
 
-void true_size(int n, int m)
+void is_size(int int_size)
 {
-	if (n <= 0 || m <= 0)
+	if (int_size <= 0)
 	{
 		errno = EIO;
 		perror("Ошибка ввода");
@@ -186,46 +245,197 @@ void true_size(int n, int m)
 	}
 }
 
-void true_array(const int** my_array)
+int** allocating_memory_for_array(const size_t lines, const size_t columns)
+{
+	int** my_array = (int**)malloc(sizeof(int*) * lines);
+
+	for (size_t i = 0; i < lines; i++)
+	{
+		my_array[i] = (int*)malloc(sizeof(int) * columns);
+	}
+
+	is_array(my_array);
+
+	return my_array;
+}
+
+void is_array(int** my_array)
 {
 	if (my_array == NULL)
 	{
-		errno = EIO;
-		perror("Ошибка ввода");
+		errno = ENOMEM;
+		perror("Отсутствует память для массива");
 		abort();
 	}
 }
 
-void get_manual_input_array(int** my_array, size_t n, size_t m, const int minimum_limit, const int maximum_limit)
+void get_manual_input_array(int** my_array, const size_t lines, const size_t columns, const int minimum_limit, const int maximum_limit)
 {
-	for (int i = 0; i < n; i++)
+	for (size_t l = 0; l < lines; l++)
 	{
-		for (int j = 0; j < m; j++)
+		for (size_t c = 0; c < columns; c++)
 		{
-			printf("a[%d][%d] = ", i, j);
-			int c = get_value("");
-			if (c < minimum_limit || c > maximum_limit)
+			printf("Введите элемент a[%d][%d] от %d до %d: ", l, c, minimum_limit, maximum_limit);
+			my_array[l][c] = get_value("");
+			if (my_array[l][c] < minimum_limit || my_array[l][c] > maximum_limit)
 			{
 				errno = EIO;
 				perror("Ошибка ввода");
 				abort();
 			}
-			my_array[i * m + j] = c;
 		}
 	}
 }
 
-void get_random_input_array(int** my_array, size_t n, size_t m, const int minimum_limit, const int maximum_limit)
+void get_random_input_array(int** my_array, const size_t lines, const size_t columns, const int minimum_limit, const int maximum_limit)
 {
-	unsigned int ttime = time(NULL);
+	unsigned int ttime = (unsigned int)(time(NULL));
 	srand(ttime);
-	for (int i = 0; i < n; i++)
+	for (size_t l = 0; l < lines; l++)
 	{
-		for (int j = 0; j < m; j++)
+		for (size_t c = 0; c < columns; c++)
 		{
-			my_array[i * m + j] = minimum_limit + rand() % (maximum_limit - minimum_limit + 1);
+			my_array[l][c] = minimum_limit + rand() % (maximum_limit - minimum_limit + 1);
 		}
 	}
+}
+
+void print_array(int** my_array, size_t lines, size_t columns)
+{
+	for (size_t l = 0; l < lines; l++)
+	{
+		for (size_t c = 0; c < columns; c++)
+		{
+			printf_s("%d\t", my_array[l][c]);
+		}
+		printf_s("\n");
+	}
+}
+
+int get_maximum_element_in_column(int** my_array, size_t lines, size_t columns, int c)
+{
+	int max = my_array[c];
+	for (size_t l = 1; l < lines; l++)
+	{
+		if (my_array[l][c] > max)
+		{
+			max = my_array[l][c];
+		}
+	}
+	return max;
+}
+
+int** array_for_first_task(int** my_array, size_t lines, size_t columns)
+{
+	int* max_elements = get_array_with_maximum_elements_in_columns(my_array, lines, columns);
+	int** new_array = allocating_memory_for_array(lines, columns);
+
+	for (size_t c = 0; c < columns; c++)
+	{
+		bool check = false;
+		for (size_t l = 0; l < lines; l++)
+		{
+			new_array[l][c] = my_array[l][c];
+
+			if (my_array[l][c] == max_elements[c] && check == false)
+			{
+				new_array[l][c] = 0;
+				check = true;
+			}
+		}
+	}
+
+	return new_array;
+}
+
+int** array_for_second_task(int** my_array, size_t lines, size_t columns, int maximum_element, size_t new_lines)
+{
+	int** new_array = allocating_memory_for_array(new_lines, columns);
+	int* array_with_first_line = get_array_with_first_line(my_array, columns);
+
+	size_t new_line = 0;
+	size_t old_line = 0;
+
+	while (new_line < new_lines)
+	{
+		new_array[new_line] = my_array[old_line];
+
+		if (line_have_maximum_element(new_array[new_line], columns, maximum_element))
+		{
+			new_line++;
+			new_array[new_line] = array_with_first_line;
+		}
+
+		new_line++;
+		old_line++;
+	}
+
+	return new_array;
+}
+
+int get_maximum_modulus_element(int** my_array, size_t lines, size_t columns)
+{
+	int max_element = abs(my_array[0][0]);
+
+	for (size_t l = 0; l < lines; l++)
+	{
+		for (size_t c = 0; c < columns; c++)
+		{
+			if (abs(my_array[l][c]) > max_element)
+			{
+				max_element = abs(my_array[l][c]);
+			}
+		}
+	}
+
+	return max_element;
+}
+
+bool line_have_maximum_element(int* my_array, size_t columns, int maximum_element)
+{
+	for (size_t c = 0; c < columns; c++)
+	{
+		if (abs(my_array[c]) == maximum_element)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+size_t number_new_lines(int** my_array, size_t lines, size_t columns, int maximum_element)
+{
+	size_t numbers = 0;
+
+	for (size_t l = 0; l < lines; l++)
+	{
+		if (line_have_maximum_element(my_array[l], columns, maximum_element))
+		{
+			numbers++;
+		}
+	}
+
+	return numbers;
+}
+
+int* get_array_with_first_line(int** my_array, size_t columns)
+{
+	int* array = (int*)malloc(sizeof(int) * columns);
+
+	if (array == NULL)
+	{
+		errno = ENOMEM;
+		perror("Отсутствует память для массива");
+		abort();
+	}
+
+	for (size_t c = 0; c < columns; c++)
+	{
+		array[c] = my_array[0][c];
+	}
+
+	return array;
 }
 
 void check_segment(const int minimum_limit, const int maximum_limit)
@@ -237,133 +447,19 @@ void check_segment(const int minimum_limit, const int maximum_limit)
 	}
 }
 
-void print_array(int** my_array, size_t n, size_t m)
+int* get_array_with_maximum_elements_in_columns(int** my_array, size_t lines, size_t columns)
 {
-	for (int i = 0; i < n; i++)
-	{
-		for (int j = 0; j < m; j++)
-		{
-			printf("%5d ", my_array[i * m + j]);
-		}
-		printf("\n");
-	}
-}
-int get_index_of_max_in_array_column(int** my_array, size_t n, size_t m, int j)
-{
-	int max = my_array[j];
-	size_t number = j;
-	for (int i = 1; i < n; i++)
-	{
-		if (my_array[i * m + j] - max > 0)
-		{
-			max = my_array[i * m + j];
-			number = i * m + j;
-		}
-	}
-	return number;
-}
+	int* max_elements = (int*)malloc(sizeof(int) * columns);
 
-//int** get_first_array(int** my_array, const size_t n, const size_t m)
-//{
-	//for (int j = 0; j < m; j++)
-	//{
-		//my_array[get_index_of_max_in_array_column(my_array, n, m, j)] = 0;
-	//}
-	//return my_array;
-//}
-
-int get_maximum_modulus_element(int** my_array, size_t n, size_t m)
-{
-	int max = abs(my_array[0]);
-	for (int i = 0; i < n; i++)
+	for (size_t c = 0; c < columns; c++)
 	{
-		for (int j = 0; j < m; j++)
+		for (size_t l = 0; l < lines; l++)
 		{
-			if (max < abs(my_array[i * m + j]))
+			if (my_array[l][c] > max_elements[c])
 			{
-				max = abs(my_array[i * m + j]);
+				max_elements[c] = my_array[l][c];
 			}
 		}
 	}
-	return max;
-}
-
-int** get_second_array(int** my_array, size_t n, size_t m, size_t new_n)
-{
-	int** new_array = (int**)realloc(my_array, (new_n * m) * sizeof(int));
-	for (int i = 0; i < new_n; i++)
-	{
-		if (have_line_maximum_modulus_element(my_array, n, m, i))
-		{
-			my_array = insertRow(my_array, n, m, i, new_n);
-			i++;
-		}
-	}
-	return my_array;
-}
-
-bool have_line_maximum_modulus_element(int** my_array, size_t n, size_t m, int i)
-{
-	for (int j = 0; j < m; j++)
-	{
-		if (abs(my_array[i * m + j]) == get_maximum_modulus_element(my_array, n, m))
-		{
-			return true;
-		}
-	}
-	return false;
-}
-
-int get_new_n(int** my_array, size_t n, size_t m)
-{
-	size_t k = 0;
-	for (int i = 0; i < n; i++)
-	{
-		if (have_line_maximum_modulus_element(my_array, n, m, i))
-		{
-			i++;
-			k++;
-		}
-	}
-	return n + k;
-}
-
-int** insertRow(int** my_array, size_t new_n, size_t m, int i) 
-{
-	// Сдвигаем все строки после rowIndex вниз
-	for (int l = new_n - 1; l > i; l--) {
-		for (int j = 0; j < m; j++) {
-			my_array[l * m + j] = my_array[(l - 1) * m + j];
-		}
-	}
-
-	// Вставляем новую строку в массив
-	for (int j = 0; j < m; j++) 
-	{
-		my_array[i * m + j] = my_array[j];
-	}
-	return my_array;
-}
-
-int** get_first_array(int** my_array, size_t n, size_t m)
-{
-	for (int j = 0; j < m; j++)
-	{
-		int max = my_array[j]; // Предполагаем, что первый элемент столбца является максимальным
-		int max_index = 0; // Индекс максимального элемента в столбце
-
-		// Проходим по каждому элементу столбца
-		for (int i = 1; i < n; i++)
-		{
-			if (my_array[i * m + j] > max)
-			{
-				max = my_array[i * m + j];
-				max_index = i;
-			}
-		}
-
-		// Заменяем максимальный элемент на 0
-		my_array[max_index * m + j] = 0;
-	}
-	return my_array;
+	return max_elements;
 }
