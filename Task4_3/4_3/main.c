@@ -312,19 +312,6 @@ void print_array(int** my_array, size_t lines, size_t columns)
 	}
 }
 
-int get_maximum_element_in_column(int** my_array, size_t lines, size_t columns, int c)
-{
-	int max = my_array[c];
-	for (size_t l = 1; l < lines; l++)
-	{
-		if (my_array[l][c] > max)
-		{
-			max = my_array[l][c];
-		}
-	}
-	return max;
-}
-
 int** array_for_first_task(int** my_array, size_t lines, size_t columns)
 {
 	int* max_elements = get_array_with_maximum_elements_in_columns(my_array, lines, columns);
