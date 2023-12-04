@@ -16,10 +16,9 @@ double get_recurrent(double x, double k);
 /**
 * @brief Функция для вычисления суммы ряда.
 * @param x Показатель степени.
-* @param e Погрешность вычислений.
 * @return Значение 3 в степени x.
 */
-double get_series_sum(double x, const double e);
+double get_series_sum(double x);
 
 /**
 * @brief Функция для вычисления значения функции.
@@ -64,12 +63,11 @@ int main()
 	check_segment(a, b);
 	const double h = get_value("Введите шаг функции: ");
 	check_step(h);
-	const double e = pow(10, -4);
-
+	
 	double x = a;
-	while (x - b <= e)
+	while (x - b <= DBL_EPSILON)
 	{
-		printf_s("%.2lf | %.15lf | %.15lf \n", x, get_function(x), get_series_sum(x, e));
+		printf_s("%.2lf | %.15lf | %.15lf \n", x, get_function(x), get_series_sum(x));
 		x += h;
 	}
 
@@ -77,14 +75,15 @@ int main()
 }
 
 
-double get_series_sum(double x, const double e)
+double get_series_sum(double x)
 {
 	double previous = 0.0;
 	double current = 1.0;
 	double sum = current;
 	double k = 1.0;
+	const double e = pow(10, -4);
 
-	while (fabs(previous - current) >= e)
+	while (current - previous >= e)
 	{
 		previous = current;
 		current *= get_recurrent(x, k);
@@ -107,7 +106,7 @@ double get_function(double x)
 
 void check_step(int h)
 {
-	if (h < -DBL_EPSILON)
+	if (h < DBL_EPSILON)
 	{
 		puts("Неверно введен шаг.");
 		abort();
