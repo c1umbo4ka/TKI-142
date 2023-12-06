@@ -409,12 +409,7 @@ int* get_array_with_first_line(int** my_array, size_t columns)
 {
 	int* array = (int*)malloc(sizeof(int) * columns);
 
-	if (array == NULL)
-	{
-		errno = ENOMEM;
-		perror("Отсутствует память для массива");
-		abort();
-	}
+	is_array(array);
 
 	for (size_t c = 0; c < columns; c++)
 	{
@@ -439,6 +434,7 @@ int* get_array_with_maximum_elements_in_columns(int** my_array, size_t lines, si
 
 	for (size_t c = 0; c < columns; c++)
 	{
+		max_elements[c] = my_array[c];
 		for (size_t l = 0; l < lines; l++)
 		{
 			if (my_array[l][c] > max_elements[c])
