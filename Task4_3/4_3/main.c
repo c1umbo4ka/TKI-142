@@ -98,7 +98,7 @@ int** array_for_first_task(int** my_array, size_t lines, size_t columns);
 * @param new_lines - количество строк массива, в котором будут содержаться строки с порядковыми числами.
 * @return Массив, содержащий строки с элементами первой строки исходного массива.
 */
-int** array_for_second_task(int** my_array, size_t lines, size_t columns, size_t new_lines);
+int** array_for_second_task(int** my_array, size_t lines, size_t columns, size_t new_lines, int maximum_element);
 
 /**
 * @brief Функция для нахождения максимального по модулю элемента массива.
@@ -116,7 +116,7 @@ int get_maximum_modulus_element(int** my_array, size_t lines, size_t columns);
 * @param maximum_element - максимальный по модулю элемент массива.
 * @return true если строка содержит минимальный элемент массива, иначе false.
 */
-bool line_have_maximum_element(int* my_array, size_t columns, size_t lines);
+bool line_have_maximum_element(int* my_array, size_t columns, size_t lines, int maximum_element);
 
 /**
 * @brief Функция для подсчёта количества строк массива с минимальным элементом.
@@ -126,7 +126,7 @@ bool line_have_maximum_element(int* my_array, size_t columns, size_t lines);
 * @param maximum_element - максимальный по модулю элемент массива.
 * @return Количество строк массива с максимальным по модулю элементо массива.
 */
-size_t number_new_lines(int** my_array, size_t lines, size_t columns);
+size_t number_new_lines(int** my_array, size_t lines, size_t columns, int maximum_element);
 
 /**
 * @brief Функция для создания массива с первой строкой исходного массива.
@@ -206,9 +206,10 @@ int main()
 	puts("Ответ на первое задание: ");
 	print_array(array_for_first_task(my_array, lines, columns), lines, columns);
 
-	size_t new_lines = lines + number_new_lines(my_array, lines, columns);
+	int maximum_element = get_maximum_modulus_element(my_array, lines, columns);
+	size_t new_lines = lines + number_new_lines(my_array, lines, columns, maximum_element);
 	puts("Ответ на второе задание: ");
-	print_array(array_for_second_task(my_array, lines, columns, new_lines), new_lines, columns);
+	print_array(array_for_second_task(my_array, lines, columns, new_lines, maximum_element), new_lines, columns);
 
 	is_array(my_array);
 
@@ -333,7 +334,7 @@ int** array_for_first_task(int** my_array, size_t lines, size_t columns)
 	return new_array;
 }
 
-int** array_for_second_task(int** my_array, size_t lines, size_t columns, size_t new_lines)
+int** array_for_second_task(int** my_array, size_t lines, size_t columns, size_t new_lines, int maximum_element)
 {
 	int** new_array = allocating_memory_for_array(new_lines, columns);
 	int* array_with_first_line = get_array_with_first_line(my_array, columns);
@@ -345,7 +346,7 @@ int** array_for_second_task(int** my_array, size_t lines, size_t columns, size_t
 	{
 		new_array[new_line] = my_array[old_line];
 
-		if (line_have_maximum_element(new_array[new_line], columns, lines))
+		if (line_have_maximum_element(new_array[new_line], columns, lines, maximum_element))
 		{
 			new_line++;
 			new_array[new_line] = array_with_first_line;
@@ -376,9 +377,9 @@ int get_maximum_modulus_element(int** my_array, size_t lines, size_t columns)
 	return max_element;
 }
 
-bool line_have_maximum_element(int* my_array, size_t columns, size_t lines)
+bool line_have_maximum_element(int* my_array, size_t columns, size_t lines, int maximum_element)
 {
-	int maximum_element = get_maximum_modulus_element(my_array, lines, columns);
+	
 	for (size_t c = 0; c < columns; c++)
 	{
 		if (abs(my_array[c]) == maximum_element)
@@ -390,13 +391,13 @@ bool line_have_maximum_element(int* my_array, size_t columns, size_t lines)
 	return false;
 }
 
-size_t number_new_lines(int** my_array, size_t lines, size_t columns)
+size_t number_new_lines(int** my_array, size_t lines, size_t columns, int maximum_element)
 {
 	size_t numbers = 0;
 
 	for (size_t l = 0; l < lines; l++)
 	{
-		if (line_have_maximum_element(my_array[l], columns, lines))
+		if (line_have_maximum_element(my_array[l], columns, lines, maximum_element))
 		{
 			numbers++;
 		}
