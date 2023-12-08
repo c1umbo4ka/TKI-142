@@ -77,26 +77,23 @@ int main()
 
 double get_series_sum(double x)
 {
-	double previous = 0.0;
-	double current = 1.0;
+	double current = 1;
 	double sum = current;
-	double k = 1.0;
+	double k = 0;
 	const double e = pow(10, -4);
 
-	while (current - previous >= e)
+	while (get_function(x) - sum > e)
 	{
-		previous = current;
 		current *= get_recurrent(x, k);
 		sum += current;
 		k++;
 	}
-
 	return sum;
 }
 
 double get_recurrent(double x, double k)
 {
-	return pow(x, 2) / (4 * pow(k, 2) + 6 * k + 2);
+	return pow(x, 2) / ((2 * k + 2) * (2 * k + 1));
 }
 
 double get_function(double x)
