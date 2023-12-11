@@ -18,7 +18,7 @@ double get_recurrent(double x, double k);
 * @param x Показатель степени.
 * @return Значение 3 в степени x.
 */
-double get_series_sum(double x);
+double get_series_sum(double x, double e);
 
 /**
 * @brief Функция для вычисления значения функции.
@@ -51,6 +51,14 @@ double get_value(const char* message);
 void check_segment(const double a, const double b);
 
 /**
+* @brief Функция ввода и проверки на правильность точности вычислений.
+* @param message - сообщение пользователю.
+* @remarks Экстренное завершение программы, в случае неправильного ввода.
+* @return Возвращает значение в случае успеха.
+*/
+int get_epsilon(const char* message);
+
+/**
 * @brief Точка входа в программу.
 * @return Возвращает 0 в случае успеха.
 */
@@ -63,11 +71,12 @@ int main()
 	check_segment(a, b);
 	const double h = get_value("Введите шаг функции: ");
 	check_step(h);
+	const double e = pow(10, -get_epsilon("Введите точность вычислений (в количестве знаков после запятой): "));
 	
 	double x = a;
 	while (x - b <= DBL_EPSILON)
 	{
-		printf_s("%.2lf | %.15lf | %.15lf \n", x, get_function(x), get_series_sum(x));
+		printf_s("%10.2lf | %25.15lf | %.15lf \n", x, get_function(x), get_series_sum(x, e));
 		x += h;
 	}
 
@@ -75,12 +84,11 @@ int main()
 }
 
 
-double get_series_sum(double x)
+double get_series_sum(double x, double e)
 {
 	double current = 1;
 	double sum = current;
 	double k = 0;
-	const double e = pow(10, -4);
 
 	while (get_function(x) - sum > e)
 	{
@@ -105,7 +113,7 @@ void check_step(int h)
 {
 	if (h < DBL_EPSILON)
 	{
-		puts("Неверно введен шаг.");
+		puts("Неверно введено значение!");
 		abort();
 	}
 }
@@ -126,6 +134,21 @@ double get_value(const char* message)
 	int result = scanf_s("%lf", &value);
 
 	if (result != 1)
+	{
+		errno = EIO;
+		perror("Ошибка ввода");
+		abort();
+	}
+	return value;
+}
+
+int get_epsilon(const char* message)
+{
+	int value;
+	printf("%s", message);
+	int result = scanf_s("%d", &value);
+
+	if (result != 1 || value < 0)
 	{
 		errno = EIO;
 		perror("Ошибка ввода");
