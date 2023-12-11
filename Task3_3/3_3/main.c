@@ -32,7 +32,7 @@ double get_function(double x);
 * @param h - шаг функции.
 * @remarks Экстренное завершение программы, в случае неправильного ввода.
 */
-void check_step(int h);
+void check_step(double h);
 
 /**
 * @brief Функция проверки шага на правильность.
@@ -51,12 +51,18 @@ double get_value(const char* message);
 void check_segment(const double a, const double b);
 
 /**
-* @brief Функция ввода и проверки на правильность точности вычислений.
-* @param message - сообщение пользователю.
+* @brief Функция проверки на правильность точности вычислений.
 * @remarks Экстренное завершение программы, в случае неправильного ввода.
 * @return Возвращает значение в случае успеха.
 */
-int get_epsilon(const char* message);
+void check_epsilon(double e, double x);
+
+/**
+* @brief Функция расчёта первого элемента последовательности.
+* @param x - аргумент функции.
+* @return Возвращает значение первого элемента последовательности.
+*/
+double get_first_element(double x);
 
 /**
 * @brief Точка входа в программу.
@@ -71,9 +77,10 @@ int main()
 	check_segment(a, b);
 	const double h = get_value("Введите шаг функции: ");
 	check_step(h);
-	const double e = pow(10, -get_epsilon("Введите точность вычислений (в количестве знаков после запятой): "));
-	
+	const double e = get_value("Введите точность вычислений: ");
 	double x = a;
+	check_epsilon(e, x);
+	
 	while (x - b <= DBL_EPSILON)
 	{
 		printf_s("%10.2lf | %25.15lf | %.15lf \n", x, get_function(x), get_series_sum(x, e));
@@ -109,7 +116,7 @@ double get_function(double x)
 		return (exp(x) + exp(-x)) / 2;
 }
 
-void check_step(int h)
+void check_step(double h)
 {
 	if (h < DBL_EPSILON)
 	{
@@ -142,17 +149,17 @@ double get_value(const char* message)
 	return value;
 }
 
-int get_epsilon(const char* message)
+void check_epsilon(double e, double x)
 {
-	int value;
-	printf("%s", message);
-	int result = scanf_s("%d", &value);
-
-	if (result != 1 || value < 0)
+	if (e < DBL_EPSILON || e - get_first_element(x) > DBL_EPSILON)
 	{
-		errno = EIO;
-		perror("Ошибка ввода");
+		printf("Неверно введена тосность!");
 		abort();
 	}
-	return value;
+}
+
+double get_first_element(double x)
+{
+	double current = pow(x, 2) / 2;
+	return current;
 }
