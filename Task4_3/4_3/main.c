@@ -393,6 +393,7 @@ bool line_have_maximum_element(int* my_array, size_t columns, size_t lines, int 
 
 size_t number_new_lines(int** my_array, size_t lines, size_t columns, int maximum_element)
 {
+	
 	size_t numbers = 0;
 
 	for (size_t l = 0; l < lines; l++)
@@ -432,6 +433,12 @@ void check_segment(const int minimum_limit, const int maximum_limit)
 int* get_array_with_maximum_elements_in_columns(int** my_array, size_t lines, size_t columns)
 {
 	int* max_elements = (int*)malloc(sizeof(int) * columns);
+	if (max_elements == NULL)
+	{
+		errno = EIO;
+		perror("Отсутствует память для массива");
+		abort();
+	}
 
 	for (size_t c = 0; c < columns; c++)
 	{
