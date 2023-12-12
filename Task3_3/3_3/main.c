@@ -77,8 +77,8 @@ int main()
 	check_segment(a, b);
 	const double h = get_value("Введите шаг функции: ");
 	check_step(h);
-	const double e = get_value("Введите точность вычислений: ");
 	double x = a;
+	const double e = get_value("Введите точность вычислений: ");
 	check_epsilon(e, x);
 	
 	while (x - b <= DBL_EPSILON)
