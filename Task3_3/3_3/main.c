@@ -151,7 +151,7 @@ double get_value(const char* message)
 
 void check_epsilon(double e, double x)
 {
-	if (e < DBL_EPSILON || e - get_first_element(x) > DBL_EPSILON)
+	if (e < DBL_EPSILON || e - abs(get_first_element(x)) > DBL_EPSILON)
 	{
 		printf("Неверно введена тосность!");
 		abort();
