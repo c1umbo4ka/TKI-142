@@ -97,7 +97,7 @@ double get_series_sum(double x, double e)
 	double sum = current;
 	double k = 0;
 
-	while (get_function(x) - sum > e)
+	while (get_function(x) - sum > e + DBL_EPSILON)
 	{
 		current *= get_recurrent(x, k);
 		sum += current;
